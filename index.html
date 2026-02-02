@@ -3,46 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thrive Daily | Professional Solutions</title>
+    <title>Thrive Daily | Professional IT Solutions</title>
+    
     <link rel="icon" type="image/jpeg" href="img/logo.jpeg">
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-50 text-gray-900 font-sans">
 
-    <header class="bg-white border-b">
-        <div class="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8 text-center flex flex-col items-center">
-            <img src="img/logo.jpeg" alt="Thrive Daily Logo" class="h-32 w-32 object-contain mb-6 rounded-lg shadow-sm">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .gradient-bg { background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%); }
+        .glass-card { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 font-sans leading-relaxed">
+
+    <header class="gradient-bg py-20 px-6">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="inline-block p-2 bg-white rounded-2xl shadow-2xl mb-8">
+                <img src="img/logo.jpeg" alt="Thrive Daily Logo" class="h-24 w-auto rounded-xl">
+            </div>
             
-            <h1 class="text-4xl font-extrabold text-indigo-600 sm:text-5xl">Thrive Daily</h1>
-            <p class="mt-4 text-xl text-gray-500">Empowering your daily growth through innovative technology.</p>
+            <h1 class="text-5xl font-extrabold text-white tracking-tight mb-4">Thrive Daily</h1>
+            <p class="text-xl text-indigo-100 font-light">Empowering your daily growth through innovative technology.</p>
         </div>
     </header>
 
-    <main class="max-w-4xl mx-auto px-4 py-12">
+    <main class="max-w-4xl mx-auto px-6 -mt-12 pb-20">
         
-        <section id="privacy" class="mb-12 bg-white p-8 shadow rounded-lg">
-            <h2 class="text-2xl font-bold mb-4 border-b pb-2">Privacy Policy</h2>
-            <p class="mb-4 text-sm text-gray-600 font-medium italic underline">Last Updated: February 2026</p>
-            <div class="space-y-4 text-gray-700">
-                <p><strong>1. Information Collection:</strong> We collect information you provide directly to us when using Thrive Daily services, including identifiers and usage data.</p>
-                <p><strong>2. Data Usage:</strong> Your data is used to provide, maintain, and improve our services, and to protect Thrive Daily and our users.</p>
-                <p><strong>3. US Compliance (CCPA/GDPR):</strong> We respect your privacy rights. Depending on your location, you may have the right to access, delete, or limit the use of your personal data.</p>
-                <p><strong>4. Security:</strong> We implement industry-standard security measures to protect your information.</p>
+        <section class="glass-card rounded-3xl shadow-xl border border-white/20 p-10 mb-8">
+            <h2 class="text-3xl font-bold text-slate-800 mb-6 flex items-center">
+                <span class="w-2 h-8 bg-indigo-600 rounded-full mr-4"></span>
+                Privacy Policy
+            </h2>
+            
+            <div class="space-y-6 text-slate-600">
+                <p class="text-sm font-bold uppercase tracking-widest text-indigo-500">Last Updated: February 2026</p>
+                
+                <div class="space-y-4">
+                    <p><strong>1. Data Collection:</strong> We collect personal information you provide to us (name, email) and technical data automatically collected through your use of our platform.</p>
+                    <p><strong>2. Compliance:</strong> Our operations are designed to comply with United States privacy standards, including the CCPA (California) and relevant federal guidelines.</p>
+                    <p><strong>3. Data Security:</strong> Thrive Daily employs advanced encryption and security protocols to ensure your data is protected against unauthorized access.</p>
+                </div>
             </div>
         </section>
 
-        <section id="terms" class="mb-12 bg-white p-8 shadow rounded-lg">
-            <h2 class="text-2xl font-bold mb-4 border-b pb-2">Terms of Service</h2>
-            <div class="space-y-4 text-gray-700">
-                <p>By accessing Thrive Daily, you agree to be bound by these terms. Our services are provided "as is" without warranties of any kind.</p>
-            </div>
+        <section class="glass-card rounded-3xl shadow-xl border border-white/20 p-10">
+            <h2 class="text-3xl font-bold text-slate-800 mb-6 flex items-center">
+                <span class="w-2 h-8 bg-purple-600 rounded-full mr-4"></span>
+                Terms of Service
+            </h2>
+            <p class="text-slate-600">
+                By using our services, you agree to comply with our usage policies. Thrive Daily provides IT and digital solutions "as is" and is committed to delivering professional-grade excellence in all our services.
+            </p>
         </section>
 
     </main>
 
-    <footer class="bg-gray-800 text-white py-8">
-        <div class="text-center text-sm">
-            &copy; 2026 Thrive Daily. All rights reserved.
+    <footer class="bg-slate-900 text-slate-400 py-12 px-6">
+        <div class="max-w-4xl mx-auto text-center border-t border-slate-800 pt-8">
+            <p class="text-sm">&copy; 2026 Thrive Daily. All rights reserved.</p>
+            <p class="text-xs mt-2 font-mono text-slate-600">SECURE DIGITAL SOLUTIONS | USA COMPLIANT</p>
         </div>
     </footer>
 
