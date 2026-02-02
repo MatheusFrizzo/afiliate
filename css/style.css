@@ -1,0 +1,31 @@
+/* Custom Styles for Thrive Daily */
+
+.gradient-bg { 
+    background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%); 
+}
+
+.glass-card { 
+    background: rgba(255, 255, 255, 0.9); 
+    backdrop-filter: blur(10px); 
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.social-button { 
+    transition: all 0.3s ease; 
+}
+
+.social-button:hover { 
+    transform: translateY(-3px); 
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); 
+}
+
+/* Estilo para os cards de produtos */
+.product-card {
+    transition: all 0.3s ease;
+    border: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.product-card:hover {
+    border-color: #6366f1;
+    background-color: #f8fafc;
+}

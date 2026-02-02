@@ -8,12 +8,7 @@
     <link rel="icon" type="image/jpeg" href="img/logo.jpeg">
 
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        .gradient-bg { background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%); }
-        .glass-card { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); }
-        .social-button { transition: all 0.3s ease; }
-        .social-button:hover { transform: translateY(-3px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
-    </style>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body class="bg-slate-50 text-slate-900 font-sans leading-relaxed">
 
@@ -39,6 +34,22 @@
 
     <main class="max-w-4xl mx-auto px-6 -mt-12 pb-20">
         
+        <section class="glass-card rounded-3xl shadow-xl p-10 mb-8 border border-white/20">
+            <h2 class="text-2xl font-bold text-slate-800 mb-6 flex items-center">
+                <span class="w-2 h-8 bg-green-500 rounded-full mr-4"></span>
+                Our Solutions
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <a href="produtoa/" class="product-card p-6 rounded-2xl flex items-center justify-between group">
+                    <div>
+                        <h3 class="font-bold text-lg group-hover:text-indigo-600 transition-colors">Produto A</h3>
+                        <p class="text-sm text-slate-500">Discover our specialized IT tools.</p>
+                    </div>
+                    <span class="text-2xl group-hover:translate-x-2 transition-transform">→</span>
+                </a>
+            </div>
+        </section>
+
         <section class="glass-card rounded-3xl shadow-xl border border-white/20 p-10 mb-8">
             <h2 class="text-3xl font-bold text-slate-800 mb-6 flex items-center border-b pb-4">
                 <span class="w-2 h-8 bg-indigo-600 rounded-full mr-4"></span>
@@ -47,12 +58,9 @@
             
             <div class="space-y-6 text-slate-700 text-sm md:text-base">
                 <p class="font-bold uppercase tracking-widest text-indigo-500">Last Updated: February 2026</p>
-                
                 <div class="space-y-4">
-                    <p><strong>1. Information Collection:</strong> We collect information you provide directly to us when using Thrive Daily services, including identifiers and usage data.</p>
-                    <p><strong>2. Data Usage:</strong> Your data is used to provide, maintain, and improve our services, and to protect Thrive Daily and our users.</p>
-                    <p><strong>3. CCPA Rights (California):</strong> If you are a California resident, you have the right to request access to your data, deletion of your data, and to opt-out of the sale of personal information.</p>
-                    <p><strong>4. Security:</strong> We implement industry-standard security measures to protect your information against unauthorized access.</p>
+                    <p><strong>1. Information Collection:</strong> We collect data to provide better services to all our users.</p>
+                    <p><strong>2. Security:</strong> We use industry-standard encryption to protect your information.</p>
                 </div>
             </div>
         </section>
@@ -63,12 +71,7 @@
                 Terms of Service
             </h2>
             <div class="text-slate-700 text-sm md:text-base space-y-4">
-                <p>
-                    By accessing Thrive Daily, you agree to be bound by these terms. Our services are provided "as is" without warranties of any kind.
-                </p>
-                <p>
-                    We reserve the right to modify or terminate our services for any reason, without notice, at any time. Your use of our services is at your sole risk.
-                </p>
+                <p>By accessing Thrive Daily, you agree to be bound by these terms.</p>
             </div>
         </section>
 
