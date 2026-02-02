@@ -3,15 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thrive Daily | Professional IT Solutions</title>
-    
+    <title>Thrive Daily | Official Site</title>
     <link rel="icon" type="image/jpeg" href="img/logo.jpeg">
-    
-
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         .gradient-bg { background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%); }
         .glass-card { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); }
+        .social-button { transition: all 0.3s ease; }
+        .social-button:hover { transform: translateY(-3px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-900 font-sans leading-relaxed">
@@ -21,48 +20,67 @@
             <div class="inline-block p-2 bg-white rounded-2xl shadow-2xl mb-8">
                 <img src="img/logo.jpeg" alt="Thrive Daily Logo" class="h-24 w-auto rounded-xl">
             </div>
-            
             <h1 class="text-5xl font-extrabold text-white tracking-tight mb-4">Thrive Daily</h1>
-            <p class="text-xl text-indigo-100 font-light">Empowering your daily growth through innovative technology.</p>
+            <p class="text-xl text-indigo-100 font-light">Stay connected with our latest updates and digital insights.</p>
+            
+            <div class="mt-8 flex justify-center gap-4">
+                <a href="https://instagram.com/SEU_USUARIO" target="_blank" class="social-button bg-white text-purple-600 px-6 py-3 rounded-full font-bold flex items-center gap-2">
+                    Instagram
+                </a>
+                <a href="https://facebook.com/SEU_USUARIO" target="_blank" class="social-button bg-white text-blue-600 px-6 py-3 rounded-full font-bold flex items-center gap-2">
+                    Facebook
+                </a>
+            </div>
         </div>
     </header>
 
     <main class="max-w-4xl mx-auto px-6 -mt-12 pb-20">
         
-        <section class="glass-card rounded-3xl shadow-xl border border-white/20 p-10 mb-8">
-            <h2 class="text-3xl font-bold text-slate-800 mb-6 flex items-center">
-                <span class="w-2 h-8 bg-indigo-600 rounded-full mr-4"></span>
-                Privacy Policy
-            </h2>
-            
-            <div class="space-y-6 text-slate-600">
-                <p class="text-sm font-bold uppercase tracking-widest text-indigo-500">Last Updated: February 2026</p>
-                
-                <div class="space-y-4">
-                    <p><strong>1. Data Collection:</strong> We collect personal information you provide to us (name, email) and technical data automatically collected through your use of our platform.</p>
-                    <p><strong>2. Compliance:</strong> Our operations are designed to comply with United States privacy standards, including the CCPA (California) and relevant federal guidelines.</p>
-                    <p><strong>3. Data Security:</strong> Thrive Daily employs advanced encryption and security protocols to ensure your data is protected against unauthorized access.</p>
-                </div>
+        <section class="glass-card rounded-3xl shadow-xl p-10 mb-8 border border-white/20">
+            <h2 class="text-2xl font-bold text-slate-800 mb-8">Latest Updates</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <a href="URL_DA_PUBLICACAO_INSTAGRAM" target="_blank" class="block group">
+                    <div class="bg-slate-100 rounded-2xl overflow-hidden border border-slate-200 transition-all group-hover:border-indigo-400">
+                        <div class="aspect-square bg-slate-200 flex items-center justify-center text-slate-400">
+                           <span class="text-sm">View Post on Instagram</span>
+                        </div>
+                        <div class="p-4">
+                            <p class="text-sm font-medium text-indigo-600 mb-1 italic">#Technology #Growth</p>
+                            <p class="text-slate-700 text-sm">Check out our latest insights on digital transformation for 2026.</p>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="URL_DA_PUBLICACAO_FACEBOOK" target="_blank" class="block group">
+                    <div class="bg-slate-100 rounded-2xl overflow-hidden border border-slate-200 transition-all group-hover:border-blue-400">
+                        <div class="aspect-square bg-slate-200 flex items-center justify-center text-slate-400">
+                           <span class="text-sm">View Post on Facebook</span>
+                        </div>
+                        <div class="p-4">
+                            <p class="text-sm font-medium text-blue-600 mb-1 italic">#Business #Innovation</p>
+                            <p class="text-slate-700 text-sm">Join our community as we discuss the future of professional IT solutions.</p>
+                        </div>
+                    </div>
+                </a>
             </div>
         </section>
 
-        <section class="glass-card rounded-3xl shadow-xl border border-white/20 p-10">
-            <h2 class="text-3xl font-bold text-slate-800 mb-6 flex items-center">
-                <span class="w-2 h-8 bg-purple-600 rounded-full mr-4"></span>
-                Terms of Service
-            </h2>
-            <p class="text-slate-600">
-                By using our services, you agree to comply with our usage policies. Thrive Daily provides IT and digital solutions "as is" and is committed to delivering professional-grade excellence in all our services.
-            </p>
-        </section>
-
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <section class="glass-card rounded-2xl shadow-lg p-8 border border-white/20">
+                <h3 class="font-bold mb-2">Privacy Policy</h3>
+                <p class="text-sm text-slate-600 mb-4">How we protect your data in compliance with US laws.</p>
+                <a href="#privacy" class="text-indigo-600 text-sm font-bold">Read Policy →</a>
+            </section>
+            <section class="glass-card rounded-2xl shadow-lg p-8 border border-white/20">
+                <h3 class="font-bold mb-2">Terms of Service</h3>
+                <p class="text-sm text-slate-600 mb-4">Our commitment to professional excellence.</p>
+                <a href="#terms" class="text-indigo-600 text-sm font-bold">Read Terms →</a>
+            </section>
+        </div>
     </main>
 
-    <footer class="bg-slate-900 text-slate-400 py-12 px-6">
-        <div class="max-w-4xl mx-auto text-center border-t border-slate-800 pt-8">
-            <p class="text-sm">&copy; 2026 Thrive Daily. All rights reserved.</p>
-            <p class="text-xs mt-2 font-mono text-slate-600">SECURE DIGITAL SOLUTIONS | USA COMPLIANT</p>
-        </div>
+    <footer class="bg-slate-900 text-slate-400 py-12 text-center">
+        <p class="text-sm">&copy; 2026 Thrive Daily. All rights reserved.</p>
     </footer>
 
 </body>
