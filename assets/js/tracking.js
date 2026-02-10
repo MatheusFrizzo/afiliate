@@ -56,15 +56,6 @@
             body: JSON.stringify(payload)
         });
 
-        fetch('https://n8n.thrivedaily.cloud/webhook/site', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-Source': 'thrivedaily'
-            },
-            body: JSON.stringify(payload)
-        });
-
     } catch (err) {
         console.error('Tracking error:', err);
     }
