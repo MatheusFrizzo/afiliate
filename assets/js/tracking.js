@@ -17,12 +17,17 @@
             geo = await (await fetch('https://ipinfo.io/json')).json();
         }
 
-        const payload = {
+        /* ======================
+           PAGEVIEW
+        ====================== */
+
+        const pageviewPayload = {
+            event: 'pageview',
             timestamp: new Date().toISOString(),
 
             pagina_completa: window.location.href,
             pagina_path: path,
-            produto: produto,
+            produto,
 
             ip: geo.ip || '',
             pais: geo.country_name || geo.country || '',
@@ -44,21 +49,77 @@
 
             plataforma:
                 getUTM('utm_source').includes('google') ? 'google' :
-                    getUTM('utm_source').includes('facebook') ? 'meta' :
-                        getUTM('utm_source').includes('instagram') ? 'meta' :
-                            'direct'
+                getUTM('utm_source').includes('facebook') ? 'meta' :
+                getUTM('utm_source').includes('instagram') ? 'meta' :
+                'direct'
         };
 
-        const res = await fetch('https://n8n.thrivedaily.cloud/webhook/site', {
+        fetch('https://n8n.thrivedaily.cloud/webhook/site', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'X-Source': 'thrivedaily'
             },
-            body: JSON.stringify(payload)
+            body: JSON.stringify(pageviewPayload)
         });
 
-        console.log('Tracking enviado:', res.status, payload);
+        /* ======================
+           CTA TRACKING
+        ====================== */
+
+        const CTA_MAP = {
+            check_availability: 'CHECK AVAILABILITY & PRICING',
+            official_website: 'OFFICIAL WEBSITE',
+            go_official: 'GO TO OFFICIAL WEBSITE'
+        };
+
+        document.addEventListener('click', async (e) => {
+            const el = e.target.closest('a, button');
+            if (!el) return;
+
+            let cta = el.dataset.cta || null;
+
+            if (!cta) {
+                const text = el.innerText?.trim().toUpperCase();
+                for (const [key, label] of Object.entries(CTA_MAP)) {
+                    if (text?.includes(label)) {
+                        cta = key;
+                        break;
+                    }
+                }
+            }
+
+            if (!cta) return;
+
+            const ctaPayload = {
+                event: 'cta_click',
+                timestamp: new Date().toISOString(),
+
+                cta,
+                cta_text: el.innerText.trim(),
+                cta_href: el.href || null,
+
+                pagina_completa: location.href,
+                pagina_path: location.pathname,
+                produto,
+                plataforma: 'site'
+            };
+
+            try {
+                const res = await fetch('https://n8n.thrivedaily.cloud/webhook/site', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Source': 'thrivedaily'
+                    },
+                    body: JSON.stringify(ctaPayload)
+                });
+
+                console.log('CTA tracking enviado:', res.status, ctaPayload);
+            } catch (err) {
+                console.error('Erro CTA tracking:', err);
+            }
+        });
 
     } catch (err) {
         console.error('Tracking error:', err);
