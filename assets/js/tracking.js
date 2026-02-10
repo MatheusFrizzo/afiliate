@@ -6,7 +6,9 @@
         const path = window.location.pathname;
 
         const produto =
-            document.body?.dataset?.produto || 'home';
+            document.body?.dataset?.produto ||
+            document.querySelector('body[data-produto]')?.dataset.produto ||
+            'home';
 
         let geo = {};
         try {
@@ -42,9 +44,9 @@
 
             plataforma:
                 getUTM('utm_source').includes('google') ? 'google' :
-                getUTM('utm_source').includes('facebook') ? 'meta' :
-                getUTM('utm_source').includes('instagram') ? 'meta' :
-                'direct'
+                    getUTM('utm_source').includes('facebook') ? 'meta' :
+                        getUTM('utm_source').includes('instagram') ? 'meta' :
+                            'direct'
         };
 
         const res = await fetch('https://n8n.thrivedaily.cloud/webhook/site', {
