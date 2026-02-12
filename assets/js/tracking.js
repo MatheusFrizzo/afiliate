@@ -1,6 +1,6 @@
 (function () {
 
-  const N8N_WEBHOOK_URL = "https://SEU_N8N_WEBHOOK_AQUI";
+  const N8N_WEBHOOK_URL = "https://n8n.thrivedaily.cloud/webhook/site";
 
   function getProductFromUrl() {
     const path = window.location.pathname.toLowerCase();
