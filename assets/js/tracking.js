@@ -53,3 +53,46 @@
   });
 
 })();
+
+// ===============================
+// GERAR ID ÚNICO POR VISITANTE
+// ===============================
+
+function generateVisitorId() {
+    return 'v_' + Math.random().toString(36).substring(2, 12);
+}
+
+let visitorId = localStorage.getItem('visitor_id');
+
+if (!visitorId) {
+    visitorId = generateVisitorId();
+    localStorage.setItem('visitor_id', visitorId);
+}
+
+// ===============================
+// LINK BASE DA CLICKBANK
+// ===============================
+
+const clickbankBaseUrl = "https://1d95djjcmhvxc8me-ab3is3llf.hop.clickbank.net";
+
+// ===============================
+// CAPTURAR TODOS OS BOTÕES CTA
+// ===============================
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const ctas = document.querySelectorAll("[data-cta]");
+
+    ctas.forEach(btn => {
+        btn.addEventListener("click", function (e) {
+            e.preventDefault();
+
+            const finalUrl = clickbankBaseUrl + "?tid=" + visitorId;
+
+            console.log("Redirecionando com TID:", visitorId);
+
+            window.location.href = finalUrl;
+        });
+    });
+
+});
