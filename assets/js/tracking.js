@@ -73,7 +73,7 @@ if (!visitorId) {
 // LINK BASE DA CLICKBANK
 // ===============================
 
-const clickbankBaseUrl = "https://1d95djjcmhvxc8me-ab3is3llf.hop.clickbank.net";
+const clickbankBaseUrl = "https://1d95djjcmhvxc8me-ab3is3llf.hop.clickbank.net"; 
 
 // ===============================
 // CAPTURAR TODOS OS BOTÕES CTA
@@ -91,7 +91,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             console.log("Redirecionando com TID:", visitorId);
 
-            window.location.href = finalUrl; alert(finalUrl);
+            window.location.href = finalUrl; //alert(finalUrl);
         });
     });
 
