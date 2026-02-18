@@ -91,7 +91,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             console.log("Redirecionando com TID:", visitorId);
 
-            window.location.href = finalUrl;
+            alert(finalUrl); //window.location.href = finalUrl;
         });
     });
 
