@@ -2,13 +2,31 @@
 
   const N8N_WEBHOOK_URL = "https://n8n.thrivedaily.cloud/webhook/site";
 
-  function getProductFromUrl() {
-    const path = window.location.pathname.toLowerCase();
+  // ===============================
+  // GERAR / RECUPERAR VISITOR ID
+  // ===============================
 
-    return path.includes('orexiburn') ? 'orexiburn' :
-           path.includes('prodentim') ? 'prodentim' :
-           'unknown';
+  function generateVisitorId() {
+    return 'v_' + Math.random().toString(36).substring(2, 12);
   }
+
+  let visitorId = localStorage.getItem('visitor_id');
+
+  if (!visitorId) {
+    visitorId = generateVisitorId();
+    localStorage.setItem('visitor_id', visitorId);
+  }
+
+  // ===============================
+  // PEGAR DADOS DO HTML
+  // ===============================
+
+  const product = document.body.dataset.produto || "unknown";
+  const hoplink = document.body.dataset.hoplink;
+
+  // ===============================
+  // ENVIAR PARA N8N
+  // ===============================
 
   function sendToN8n(payload) {
     fetch(N8N_WEBHOOK_URL, {
@@ -16,83 +34,50 @@
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify(payload)
+      body: JSON.stringify({
+        ...payload,
+        visitor_id: visitorId
+      })
     }).catch(() => {});
   }
 
-  // 🔹 PAGE VIEW
+  // ===============================
+  // PAGE VIEW
+  // ===============================
+
   sendToN8n({
     event: "page_view",
-    product: getProductFromUrl(),
+    product: product,
     url: window.location.href,
     referrer: document.referrer,
     timestamp: new Date().toISOString()
   });
 
-  // 🔹 CTA CLICK
+  // ===============================
+  // CTA CLICK
+  // ===============================
+
   document.addEventListener("click", function (e) {
-    const btn = e.target.closest("a[data-cta]");
-    if (!btn) return;
+
+    const btn = e.target.closest("[data-cta]");
+    if (!btn || !hoplink) return;
 
     e.preventDefault();
 
-    const destination = btn.href;
+    const finalUrl = hoplink + "?tid=" + visitorId;
 
     sendToN8n({
       event: "cta_click",
-      product: getProductFromUrl(),
+      product: product,
       cta_name: btn.dataset.cta,
-      url: window.location.href,
-      destination: destination,
+      destination: finalUrl,
       timestamp: new Date().toISOString()
     });
 
     setTimeout(() => {
-      window.location.href = destination;
+      window.location.href = finalUrl;
     }, 150);
+
   });
 
 })();
-
-// ===============================
-// GERAR ID ÚNICO POR VISITANTE
-// ===============================
-
-function generateVisitorId() {
-    return 'v_' + Math.random().toString(36).substring(2, 12);
-}
-
-let visitorId = localStorage.getItem('visitor_id');
-
-if (!visitorId) {
-    visitorId = generateVisitorId();
-    localStorage.setItem('visitor_id', visitorId);
-}
-
-// ===============================
-// LINK BASE DA CLICKBANK
-// ===============================
-
-const clickbankBaseUrl = "https://1d95djjcmhvxc8me-ab3is3llf.hop.clickbank.net"; 
-
-// ===============================
-// CAPTURAR TODOS OS BOTÕES CTA
-// ===============================
-
-document.addEventListener("DOMContentLoaded", function () {
-
-    const ctas = document.querySelectorAll("[data-cta]");
-
-    ctas.forEach(btn => {
-        btn.addEventListener("click", function (e) {
-            e.preventDefault();
-
-            const finalUrl = clickbankBaseUrl + "?tid=" + visitorId;
-
-            console.log("Redirecionando com TID:", visitorId);
-
-            window.location.href = finalUrl; //alert(finalUrl);
-        });
-    });
-
-});
