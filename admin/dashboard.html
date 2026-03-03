@@ -1,220 +1,566 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Thrive Daily | Intelligence Dashboard</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<title>Thrive Intelligence PRO</title>
 <script src="https://cdn.tailwindcss.com"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-chart-geo@4.3.0/build/index.umd.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
+:root {
+  --bg-base: #0b1120;
+  --bg-mid:  #0f172a;
+  --bg-card: rgba(255,255,255,0.04);
+  --bg-card-hover: rgba(255,255,255,0.07);
+  --border: rgba(99,130,255,0.12);
+  --accent-indigo: #6366f1;
+  --accent-blue:   #3b82f6;
+  --accent-green:  #22c55e;
+  --accent-yellow: #eab308;
+  --accent-purple: #a855f7;
+  --accent-red:    #ef4444;
+  --accent-cyan:   #06b6d4;
+  --text-primary: #e2e8f0;
+  --text-muted:   #64748b;
+}
+*{ box-sizing:border-box; margin:0; padding:0; }
 body {
-    background: linear-gradient(to bottom right, #0f172a, #1e293b);
+  font-family:'Syne',sans-serif;
+  background: linear-gradient(135deg, var(--bg-base) 0%, #0f172a 50%, #131e35 100%);
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
 }
-.card {
-    background: rgba(255,255,255,0.05);
-    backdrop-filter: blur(12px);
+/* Grid background */
+body::before {
+  content:'';
+  position:fixed; inset:0;
+  background-image:
+    linear-gradient(rgba(99,130,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(99,130,255,0.04) 1px, transparent 1px);
+  background-size: 52px 52px;
+  pointer-events:none; z-index:0;
 }
-canvas {
-    max-height: 300px;
+/* Glow orb */
+body::after {
+  content:'';
+  position:fixed;
+  top:-30%; right:-15%;
+  width:70vw; height:70vw;
+  background: radial-gradient(circle, rgba(67,97,238,0.07) 0%, transparent 65%);
+  pointer-events:none; z-index:0;
+  animation: orb 18s ease-in-out infinite alternate;
+}
+@keyframes orb { from{transform:translate(0,0)} to{transform:translate(-5%,8%)} }
+.z1 { position:relative; z-index:1; }
+
+/* HEADER */
+.header-bg {
+  background: linear-gradient(90deg, #1e2d5a 0%, #1e3a5f 40%, #1a2a4a 100%);
+  border-bottom: 1px solid rgba(99,130,255,0.18);
+  backdrop-filter: blur(20px);
+}
+.logo-text {
+  font-size: clamp(1.5rem,4vw,2.6rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  background: linear-gradient(135deg, #93c5fd 0%, #6366f1 45%, #22c55e 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.sub-text {
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.7rem;
+  color: var(--text-muted);
+  letter-spacing:0.18em;
+  text-transform:uppercase;
+}
+
+/* CARDS */
+.glass-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  backdrop-filter: blur(14px);
+  transition: all 0.22s ease;
+}
+.glass-card:hover {
+  background: var(--bg-card-hover);
+  border-color: rgba(99,130,255,0.22);
+  transform: translateY(-1px);
+}
+
+/* KPI CARDS */
+.kpi-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.4rem;
+  backdrop-filter: blur(14px);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.25s ease;
+}
+.kpi-card::before {
+  content:''; position:absolute;
+  top:0; left:0; right:0; height:2px;
+  border-radius:14px 14px 0 0;
+}
+.kpi-card.green::before  { background: linear-gradient(90deg,#22c55e,#16a34a); }
+.kpi-card.purple::before { background: linear-gradient(90deg,#a855f7,#7c3aed); }
+.kpi-card.yellow::before { background: linear-gradient(90deg,#eab308,#d97706); }
+.kpi-card.blue::before   { background: linear-gradient(90deg,#3b82f6,#6366f1); }
+
+.kpi-value {
+  font-size: clamp(1.6rem,3vw,2.4rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height:1;
+  font-family:'JetBrains Mono',monospace;
+}
+.kpi-label {
+  font-size:0.68rem;
+  text-transform:uppercase;
+  letter-spacing:0.13em;
+  color:var(--text-muted);
+  margin-top:0.4rem;
+}
+.kpi-icon {
+  width:38px; height:38px;
+  border-radius:9px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:1.1rem;
+}
+
+/* FUNNEL */
+.funnel-wrap { display:flex; flex-direction:column; align-items:center; gap:3px; padding:0.8rem 0; }
+.funnel-stage { display:flex; align-items:center; justify-content:center; flex-direction:column; color:white; font-weight:700; transition:filter 0.2s; }
+.funnel-stage:hover { filter:brightness(1.12); }
+.funnel-top { clip-path:polygon(8% 0%,92% 0%,100% 100%,0% 100%); width:100%; max-width:520px; height:88px; background:linear-gradient(135deg,#22c55e,#16a34a); }
+.funnel-mid { clip-path:polygon(4% 0%,96% 0%,100% 100%,0% 100%); width:84%; max-width:436px; height:88px; background:linear-gradient(135deg,#3b82f6,#2563eb); }
+.funnel-bot { clip-path:polygon(0% 0%,100% 0%,88% 100%,12% 100%); width:68%; max-width:352px; height:88px; background:linear-gradient(135deg,#a855f7,#7c3aed); }
+.funnel-label { font-size:0.63rem; text-transform:uppercase; letter-spacing:0.12em; opacity:0.85; margin-bottom:2px; }
+.funnel-val   { font-size:1.45rem; font-family:'JetBrains Mono',monospace; letter-spacing:-0.03em; }
+.funnel-pct   { font-size:0.7rem; opacity:0.78; font-family:'JetBrains Mono',monospace; }
+.funnel-connector { width:2px; height:7px; background:rgba(255,255,255,0.1); }
+
+/* TABLE */
+.data-table { width:100%; border-collapse:separate; border-spacing:0; }
+.data-table thead tr th { font-size:0.63rem; text-transform:uppercase; letter-spacing:0.11em; color:var(--text-muted); padding:0.7rem 1rem; text-align:left; border-bottom:1px solid var(--border); background:rgba(67,97,238,0.07); font-family:'JetBrains Mono',monospace; }
+.data-table tbody tr { transition:background 0.14s; }
+.data-table tbody tr:hover { background:rgba(67,97,238,0.06); }
+.data-table tbody tr td { padding:0.75rem 1rem; color:var(--text-primary); border-bottom:1px solid rgba(255,255,255,0.04); font-family:'JetBrains Mono',monospace; font-size:0.77rem; }
+
+/* BADGES */
+.badge { display:inline-block; padding:2px 8px; border-radius:999px; font-size:0.65rem; font-weight:600; letter-spacing:0.05em; }
+.badge-green  { background:rgba(34,197,94,0.15);  color:#86efac; border:1px solid rgba(34,197,94,0.3); }
+.badge-blue   { background:rgba(59,130,246,0.15); color:#93c5fd; border:1px solid rgba(59,130,246,0.3); }
+.badge-purple { background:rgba(168,85,247,0.15); color:#d8b4fe; border:1px solid rgba(168,85,247,0.3); }
+.badge-yellow { background:rgba(234,179,8,0.15);  color:#fde047; border:1px solid rgba(234,179,8,0.3); }
+
+/* FILTERS */
+.filter-input { background:rgba(255,255,255,0.05); border:1px solid var(--border); border-radius:9px; color:var(--text-primary); padding:0.52rem 0.9rem; font-family:'JetBrains Mono',monospace; font-size:0.79rem; outline:none; transition:border-color 0.2s; }
+.filter-input:focus { border-color:var(--accent-blue); }
+.filter-input option { background:#0f172a; color:var(--text-primary); }
+.btn-primary { background:linear-gradient(135deg,#2563eb,#4f46e5); border:none; border-radius:9px; color:white; padding:0.52rem 1.3rem; font-family:'Syne',sans-serif; font-size:0.8rem; font-weight:700; cursor:pointer; letter-spacing:0.05em; transition:all 0.2s; }
+.btn-primary:hover { filter:brightness(1.14); transform:translateY(-1px); }
+.btn-ghost { background:rgba(255,255,255,0.06); border:1px solid var(--border); border-radius:9px; color:var(--text-muted); padding:0.52rem 1.3rem; font-family:'Syne',sans-serif; font-size:0.8rem; font-weight:600; cursor:pointer; transition:all 0.2s; }
+.btn-ghost:hover { background:rgba(255,255,255,0.1); }
+
+/* SECTION LABELS */
+.section-title   { font-size:0.63rem; text-transform:uppercase; letter-spacing:0.17em; color:var(--accent-blue); font-family:'JetBrains Mono',monospace; margin-bottom:0.3rem; }
+.section-heading { font-size:1.12rem; font-weight:700; letter-spacing:-0.02em; }
+
+/* ERROR */
+.error-box { background:rgba(239,68,68,0.12); border:1px solid rgba(239,68,68,0.35); border-radius:12px; padding:1.1rem 1.4rem; color:#fca5a5; font-family:'JetBrains Mono',monospace; font-size:0.8rem; }
+
+/* PULSE */
+.pulse-dot { width:8px; height:8px; border-radius:50%; background:var(--accent-green); animation:pulse 2s infinite; display:inline-block; margin-right:6px; }
+@keyframes pulse { 0%,100%{box-shadow:0 0 0 0 rgba(34,197,94,0.5)} 50%{box-shadow:0 0 0 6px rgba(34,197,94,0)} }
+
+/* SPINNER */
+.spinner { width:34px; height:34px; border:3px solid rgba(59,130,246,0.2); border-top-color:var(--accent-blue); border-radius:50%; animation:spin 0.8s linear infinite; }
+@keyframes spin { to{transform:rotate(360deg)} }
+
+::-webkit-scrollbar { width:5px; height:5px; }
+::-webkit-scrollbar-track { background:transparent; }
+::-webkit-scrollbar-thumb { background:rgba(99,130,255,0.25); border-radius:3px; }
+
+@media(max-width:640px) {
+  .funnel-top,.funnel-mid,.funnel-bot { height:68px; }
+  .funnel-val { font-size:1.05rem; }
 }
 </style>
 </head>
+<body>
 
-<body class="text-white font-sans">
-
-<header class="bg-indigo-700 py-6 shadow-xl">
-    <div class="max-w-7xl mx-auto px-6 flex justify-between">
-        <h1 class="text-2xl font-bold">Thrive Daily Intelligence</h1>
-        <a href="../index.html" class="hover:underline">Back</a>
+<!-- HEADER -->
+<header class="header-bg z1 sticky top-0" style="z-index:50;">
+  <div class="max-w-screen-2xl mx-auto px-4 sm:px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+    <div class="text-center sm:text-left">
+      <div class="logo-text">Thrive Intelligence PRO</div>
+      <div class="sub-text mt-0.5">Traffic &amp; Revenue Intelligence Dashboard</div>
     </div>
+    <div class="flex items-center gap-3">
+      <span class="pulse-dot"></span>
+      <span class="text-xs font-mono" style="color:var(--accent-green);">LIVE</span>
+      <button onclick="loadData()" class="btn-primary" style="padding:0.42rem 0.95rem;font-size:0.74rem;">&#8635; Refresh</button>
+    </div>
+  </div>
 </header>
 
-<section class="max-w-7xl mx-auto px-6 py-10">
+<main class="z1 max-w-screen-2xl mx-auto px-4 sm:px-6 py-6 space-y-7">
 
-<!-- KPI GRID -->
-<div class="grid md:grid-cols-5 gap-6 mb-10">
+  <div id="error-box" class="error-box hidden"></div>
+  <div id="loading" class="flex items-center justify-center py-16 gap-4">
+    <div class="spinner"></div>
+    <span class="text-sm font-mono" style="color:var(--text-muted);">Conectando ao webhook...</span>
+  </div>
 
-<div class="card p-6 rounded-xl text-center">
-<p class="text-sm text-slate-300">Total Access</p>
-<p id="totalAccess" class="text-3xl font-bold text-indigo-400">-</p>
-</div>
+  <div id="main-content" class="hidden space-y-7">
 
-<div class="card p-6 rounded-xl text-center">
-<p class="text-sm text-slate-300">Unique Visitors</p>
-<p id="uniqueVisitors" class="text-3xl font-bold text-indigo-400">-</p>
-</div>
+    <!-- FILTROS -->
+    <section class="glass-card p-5">
+      <div class="section-title">Configuracoes</div>
+      <div class="section-heading mb-4">Filtros</div>
+      <div class="flex flex-wrap gap-3 items-end">
+        <div class="flex flex-col gap-1.5">
+          <label class="text-xs font-mono" style="color:var(--text-muted);">Data</label>
+          <input type="date" id="filter-date" class="filter-input">
+        </div>
+        <div class="flex flex-col gap-1.5">
+          <label class="text-xs font-mono" style="color:var(--text-muted);">Produto</label>
+          <select id="filter-product" class="filter-input" style="min-width:155px;">
+            <option value="">Todos os Produtos</option>
+          </select>
+        </div>
+        <button onclick="applyFilters()" class="btn-primary">Aplicar Filtros</button>
+        <button onclick="resetFilters()" class="btn-ghost">Limpar</button>
+      </div>
+    </section>
 
-<div class="card p-6 rounded-xl text-center">
-<p class="text-sm text-slate-300">Unique IPs</p>
-<p id="uniqueIPs" class="text-3xl font-bold text-indigo-400">-</p>
-</div>
+    <!-- KPIs -->
+    <section>
+      <div class="section-title">Visao Geral</div>
+      <div class="section-heading mb-4">KPIs Executivos</div>
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="kpi-card green">
+          <div class="flex justify-between items-start mb-3">
+            <div class="kpi-icon" style="background:rgba(34,197,94,0.13);">📊</div>
+            <span class="badge badge-green">Traffic</span>
+          </div>
+          <div class="kpi-value" id="kpi-acessos" style="color:#86efac;">—</div>
+          <div class="kpi-label">Total de Acessos</div>
+        </div>
+        <div class="kpi-card purple">
+          <div class="flex justify-between items-start mb-3">
+            <div class="kpi-icon" style="background:rgba(168,85,247,0.13);">💰</div>
+            <span class="badge badge-purple">Revenue</span>
+          </div>
+          <div class="kpi-value" id="kpi-receita" style="color:#d8b4fe;">—</div>
+          <div class="kpi-label">Receita Total</div>
+        </div>
+        <div class="kpi-card yellow">
+          <div class="flex justify-between items-start mb-3">
+            <div class="kpi-icon" style="background:rgba(234,179,8,0.13);">🛒</div>
+            <span class="badge badge-yellow">Sales</span>
+          </div>
+          <div class="kpi-value" id="kpi-vendas" style="color:#fde047;">—</div>
+          <div class="kpi-label">Total de Vendas</div>
+        </div>
+        <div class="kpi-card blue">
+          <div class="flex justify-between items-start mb-3">
+            <div class="kpi-icon" style="background:rgba(59,130,246,0.13);">🎯</div>
+            <span class="badge badge-blue">Conv.</span>
+          </div>
+          <div class="kpi-value" id="kpi-conv" style="color:#93c5fd;">—</div>
+          <div class="kpi-label">Taxa de Conversao</div>
+        </div>
+      </div>
+    </section>
 
-<div class="card p-6 rounded-xl text-center">
-<p class="text-sm text-slate-300">Active Cities</p>
-<p id="activeCities" class="text-3xl font-bold text-indigo-400">-</p>
-</div>
+    <!-- FUNIL + PRODUTOS -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <section class="glass-card p-6">
+        <div class="section-title">Analise de Funil</div>
+        <div class="section-heading mb-5">Funil de Conversao</div>
+        <div class="funnel-wrap" id="funnel-container"></div>
+      </section>
+      <section class="glass-card p-6">
+        <div class="section-title">Produtos</div>
+        <div class="section-heading mb-4">Performance por Produto</div>
+        <div id="product-stats-list" class="space-y-3"></div>
+      </section>
+    </div>
 
-<div class="card p-6 rounded-xl text-center">
-<p class="text-sm text-slate-300">Return Rate</p>
-<p id="returnRate" class="text-3xl font-bold text-indigo-400">-</p>
-</div>
+    <!-- GRAFICOS ROW 1 -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <section class="glass-card p-6">
+        <div class="section-title">Temporalidade</div>
+        <div class="section-heading mb-4">Acessos por Hora</div>
+        <div style="position:relative;height:240px;"><canvas id="chart-hour"></canvas></div>
+      </section>
+      <section class="glass-card p-6">
+        <div class="section-title">Geografia</div>
+        <div class="section-heading mb-4">Top 5 Paises</div>
+        <div style="position:relative;height:240px;"><canvas id="chart-countries"></canvas></div>
+      </section>
+    </div>
 
-</div>
+    <!-- GRAFICOS ROW 2 -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <section class="glass-card p-6">
+        <div class="section-title">Produtos</div>
+        <div class="section-heading mb-4">Top 5 Produtos por Acesso</div>
+        <div style="position:relative;height:240px;"><canvas id="chart-products"></canvas></div>
+      </section>
+      <section class="glass-card p-6">
+        <div class="section-title">Network</div>
+        <div class="section-heading mb-4">Top 5 IPs</div>
+        <div style="position:relative;height:240px;"><canvas id="chart-ips"></canvas></div>
+      </section>
+    </div>
 
-<!-- TIME ANALYTICS -->
-<div class="grid md:grid-cols-2 gap-8 mb-10">
+    <!-- MAPA -->
+    <section class="glass-card p-6">
+      <div class="section-title">Distribuicao Global</div>
+      <div class="section-heading mb-4">Mapa de Acessos por Pais</div>
+      <div style="position:relative;height:380px;"><canvas id="chart-map"></canvas></div>
+    </section>
 
-<div class="card p-6 rounded-xl">
-<h3 class="mb-4 font-bold">Access by Hour</h3>
-<canvas id="hourChart"></canvas>
-</div>
+    <!-- TABELA -->
+    <section class="glass-card p-6">
+      <div class="section-title">Inteligencia</div>
+      <div class="section-heading mb-4">Tabela de Acessos</div>
+      <div class="overflow-x-auto rounded-xl" style="border:1px solid var(--border);">
+        <table class="data-table">
+          <thead>
+            <tr><th>IP</th><th>Pais</th><th>Cidade</th><th>Acessos</th><th>Produto</th><th>Organizacao</th></tr>
+          </thead>
+          <tbody id="table-body">
+            <tr><td colspan="6" class="text-center py-8" style="color:var(--text-muted);">Carregando...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
 
-<div class="card p-6 rounded-xl">
-<h3 class="mb-4 font-bold">Access by Date</h3>
-<canvas id="dateChart"></canvas>
-</div>
+  </div>
+</main>
 
-</div>
-
-<!-- ORIGINAL CHARTS -->
-<div class="grid md:grid-cols-2 gap-8 mb-10">
-
-<div class="card p-6 rounded-xl">
-<h3 class="mb-4 font-bold">Access by City</h3>
-<canvas id="cityChart"></canvas>
-</div>
-
-<div class="card p-6 rounded-xl">
-<h3 class="mb-4 font-bold">Access by Product</h3>
-<canvas id="productChart"></canvas>
-</div>
-
-</div>
-
-<!-- TABLES -->
-<div class="grid md:grid-cols-2 gap-8">
-
-<div class="card p-6 rounded-xl">
-<h3 class="mb-4 font-bold">Top ISPs</h3>
-<div id="ispTable"></div>
-</div>
-
-<div class="card p-6 rounded-xl">
-<h3 class="mb-4 font-bold">Top IPs</h3>
-<div id="ipTable"></div>
-</div>
-
-</div>
-
-</section>
+<footer class="z1 text-center py-5 text-xs font-mono border-t" style="border-color:var(--border);margin-top:1.5rem;color:var(--text-muted);">
+  Thrive Intelligence PRO &middot; Powered by Matheus &middot; <span id="last-update">—</span>
+</footer>
 
 <script>
-
+// ── CONFIG ─────────────────────────────────────────────────────────────
 const API_URL = "https://n8n.thrivedaily.cloud/webhook/dash";
+let rawTraffic = null, rawSales = null, charts = {};
 
-Chart.defaults.color = "#cbd5e1";
-Chart.defaults.borderColor = "rgba(255,255,255,0.1)";
+// ── UTILS ──────────────────────────────────────────────────────────────
+const safe     = (v,f=0) => (v!==undefined&&v!==null)?v:f;
+const safeObj  = v => (v&&typeof v==='object'&&!Array.isArray(v))?v:{};
+const fmt      = n => new Intl.NumberFormat('pt-BR').format(safe(n));
+const fmtMoney = n => 'R$ '+new Intl.NumberFormat('pt-BR',{minimumFractionDigits:2}).format(safe(n));
+const fmtPct   = n => Number(safe(n)).toFixed(2)+'%';
+const top5     = obj => Object.entries(safeObj(obj)).sort((a,b)=>b[1]-a[1]).slice(0,5);
+const dc       = id => { if(charts[id]){charts[id].destroy();delete charts[id];} };
 
-fetch(API_URL)
-.then(res => res.json())
-.then(data => {
+Chart.defaults.color = '#64748b';
+Chart.defaults.font.family = "'JetBrains Mono', monospace";
+Chart.defaults.font.size = 11;
+const gridOpts = { color:'rgba(99,130,255,0.07)', drawBorder:false };
 
-const analytics = Array.isArray(data) ? data[0] : data;
-
-// KPIs
-document.getElementById("totalAccess").innerText = analytics.total_access;
-document.getElementById("uniqueVisitors").innerText = analytics.unique_visitors;
-document.getElementById("uniqueIPs").innerText = Object.keys(analytics.by_ip || {}).length;
-document.getElementById("activeCities").innerText = Object.keys(analytics.by_city || {}).length;
-document.getElementById("returnRate").innerText = analytics.return_rate + "%";
-
-// =======================
-// HOUR CHART
-// =======================
-if (analytics.by_hour) {
-const sortedHours = Object.keys(analytics.by_hour).sort();
-new Chart(document.getElementById("hourChart"), {
-type: 'line',
-data: {
-labels: sortedHours,
-datasets: [{
-label: 'Access',
-data: sortedHours.map(h => analytics.by_hour[h]),
-fill: true,
-tension: 0.3
-}]
-}
-});
-}
-
-// =======================
-// DATE CHART
-// =======================
-if (analytics.by_date) {
-const sortedDates = Object.keys(analytics.by_date).sort();
-new Chart(document.getElementById("dateChart"), {
-type: 'bar',
-data: {
-labels: sortedDates,
-datasets: [{
-label: 'Access',
-data: sortedDates.map(d => analytics.by_date[d])
-}]
-}
-});
+// ── LOAD ───────────────────────────────────────────────────────────────
+async function loadData(){
+  showLoading(true); hideError();
+  try {
+    const res = await fetch(API_URL,{cache:'no-store'});
+    if(!res.ok) throw new Error('HTTP '+res.status+' — '+res.statusText);
+    const json = await res.json();
+    console.log('[Thrive] JSON recebido:', JSON.stringify(json,null,2));
+    if(Array.isArray(json)){
+      rawTraffic = json[0]||{}; rawSales = json[1]||{};
+    } else if(json&&typeof json==='object'){
+      rawTraffic = json.traffic||json[0]||json; rawSales = json.sales||json[1]||{};
+    } else throw new Error('Formato inesperado');
+    populateFilters(); renderAll();
+    showLoading(false);
+    document.getElementById('main-content').classList.remove('hidden');
+    document.getElementById('last-update').textContent = 'Atualizado: '+new Date().toLocaleString('pt-BR');
+  } catch(e){
+    showLoading(false); showError('Erro: '+e.message);
+    console.error('[Thrive] Erro:', e);
+  }
 }
 
-// CITY
-new Chart(document.getElementById("cityChart"), {
-type: 'bar',
-data: {
-labels: Object.keys(analytics.by_city || {}),
-datasets: [{
-label: 'Access',
-data: Object.values(analytics.by_city || {})
-}]
+// ── FILTERS ────────────────────────────────────────────────────────────
+function populateFilters(){
+  const sel=document.getElementById('filter-product'), cur=sel.value;
+  sel.innerHTML='<option value="">Todos os Produtos</option>';
+  const products=new Set();
+  Object.keys(safeObj(rawTraffic.by_product)).forEach(p=>products.add(p));
+  Object.keys(safeObj(rawSales.product_stats)).forEach(p=>products.add(p));
+  products.forEach(p=>{const o=document.createElement('option');o.value=p;o.textContent=p;sel.appendChild(o);});
+  if(cur) sel.value=cur;
 }
-});
-
-// PRODUCT
-new Chart(document.getElementById("productChart"), {
-type: 'doughnut',
-data: {
-labels: Object.keys(analytics.by_product || {}),
-datasets: [{
-data: Object.values(analytics.by_product || {})
-}]
-}
-});
-
-// ISP TABLE
-if (analytics.by_org) {
-let ispHTML = "<table class='w-full text-sm'>";
-Object.entries(analytics.by_org)
-.sort((a,b)=>b[1]-a[1])
-.forEach(([org,count])=>{
-ispHTML += `<tr><td class='py-1'>${org}</td><td class='text-right'>${count}</td></tr>`;
-});
-ispHTML += "</table>";
-document.getElementById("ispTable").innerHTML = ispHTML;
+function applyFilters(){ renderAll(); }
+function resetFilters(){ document.getElementById('filter-date').value=''; document.getElementById('filter-product').value=''; renderAll(); }
+function getFiltered(){
+  const product=document.getElementById('filter-product').value;
+  if(!product) return {traffic:rawTraffic, sales:rawSales};
+  const byProd=safeObj(rawTraffic.by_product);
+  const traffic={...rawTraffic, total_access:byProd[product]||0, by_product:{[product]:byProd[product]||0}};
+  const ps=safeObj(rawSales.product_stats), stat=ps[product]||{};
+  const sales={total_revenue:safe(stat.revenue),total_sales:safe(stat.purchases),total_order_impressions:safe(stat.impressions),product_stats:{[product]:stat}};
+  return {traffic,sales};
 }
 
-// IP TABLE
-let ipHTML = "<table class='w-full text-sm'>";
-Object.entries(analytics.by_ip || {})
-.sort((a,b)=>b[1]-a[1])
-.forEach(([ip,count])=>{
-ipHTML += `<tr><td class='py-1'>${ip}</td><td class='text-right'>${count}</td></tr>`;
-});
-ipHTML += "</table>";
-document.getElementById("ipTable").innerHTML = ipHTML;
+// ── RENDER ALL ─────────────────────────────────────────────────────────
+function renderAll(){
+  const {traffic,sales}=getFiltered();
+  renderKPIs(traffic,sales); renderFunnel(traffic,sales); renderProductStats(sales);
+  renderHourChart(traffic); renderCountriesChart(traffic); renderProductsChart(traffic);
+  renderIPsChart(traffic); renderMap(traffic); renderTable(traffic);
+}
 
-})
-.catch(err => console.log(err));
+// ── KPIs ───────────────────────────────────────────────────────────────
+function renderKPIs(t,s){
+  const a=safe(t.total_access), r=safe(s.total_revenue), v=safe(s.total_sales);
+  document.getElementById('kpi-acessos').textContent = fmt(a);
+  document.getElementById('kpi-receita').textContent = fmtMoney(r);
+  document.getElementById('kpi-vendas').textContent  = fmt(v);
+  document.getElementById('kpi-conv').textContent    = fmtPct(a>0?v/a*100:0);
+}
 
+// ── FUNNEL ─────────────────────────────────────────────────────────────
+function renderFunnel(t,s){
+  const a=safe(t.total_access), imp=safe(s.total_order_impressions), v=safe(s.total_sales);
+  const pI=a>0?(imp/a*100).toFixed(1):0, pV=a>0?(v/a*100).toFixed(1):0;
+  document.getElementById('funnel-container').innerHTML=`
+    <div class="funnel-stage funnel-top">
+      <div class="funnel-label">🟢 Visitantes</div>
+      <div class="funnel-val">${fmt(a)}</div>
+      <div class="funnel-pct">100%</div>
+    </div>
+    <div class="funnel-connector"></div>
+    <div class="funnel-stage funnel-mid">
+      <div class="funnel-label">🔵 Checkouts / Impressions</div>
+      <div class="funnel-val">${fmt(imp)}</div>
+      <div class="funnel-pct">${pI}% dos visitantes</div>
+    </div>
+    <div class="funnel-connector"></div>
+    <div class="funnel-stage funnel-bot">
+      <div class="funnel-label">🟣 Compras</div>
+      <div class="funnel-val">${fmt(v)}</div>
+      <div class="funnel-pct">${pV}% dos visitantes</div>
+    </div>`;
+}
+
+// ── PRODUCT STATS ──────────────────────────────────────────────────────
+function renderProductStats(s){
+  const ps=safeObj(s.product_stats), c=document.getElementById('product-stats-list');
+  if(!Object.keys(ps).length){c.innerHTML='<div class="text-sm font-mono" style="color:var(--text-muted)">Nenhum dado.</div>';return;}
+  c.innerHTML=Object.entries(ps).map(([name,st])=>{
+    const conv=parseFloat(safe(st.conversion_rate,0)), bw=Math.min(conv,100);
+    return `<div style="border:1px solid var(--border);border-radius:11px;padding:0.9rem;background:rgba(255,255,255,0.02);">
+      <div class="flex justify-between items-center mb-2">
+        <span style="font-weight:700;font-size:0.86rem;">${name}</span>
+        <span class="badge badge-blue">${conv.toFixed(2)}% conv</span>
+      </div>
+      <div class="grid grid-cols-3 gap-2 mb-2.5">
+        <div class="text-center">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:1.05rem;font-weight:700;color:#93c5fd;">${fmt(st.impressions)}</div>
+          <div style="font-size:0.6rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-muted);">Impressoes</div>
+        </div>
+        <div class="text-center">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:1.05rem;font-weight:700;color:#86efac;">${fmt(st.purchases)}</div>
+          <div style="font-size:0.6rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-muted);">Compras</div>
+        </div>
+        <div class="text-center">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:1.05rem;font-weight:700;color:#d8b4fe;">${fmtMoney(st.revenue)}</div>
+          <div style="font-size:0.6rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-muted);">Receita</div>
+        </div>
+      </div>
+      <div style="height:4px;background:rgba(255,255,255,0.05);border-radius:2px;overflow:hidden;">
+        <div style="height:100%;width:${bw}%;background:linear-gradient(90deg,#3b82f6,#a855f7);border-radius:2px;transition:width 0.6s;"></div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── CHARTS ─────────────────────────────────────────────────────────────
+function renderHourChart(t){
+  dc('hour');
+  const bh=safeObj(t.by_hour), labels=Object.keys(bh).sort(), data=labels.map(k=>bh[k]);
+  if(!labels.length) return;
+  const ctx=document.getElementById('chart-hour').getContext('2d');
+  const g=ctx.createLinearGradient(0,0,0,220);
+  g.addColorStop(0,'rgba(34,197,94,0.3)'); g.addColorStop(1,'rgba(34,197,94,0.02)');
+  charts['hour']=new Chart(ctx,{type:'line',data:{labels,datasets:[{label:'Acessos',data,borderColor:'#22c55e',backgroundColor:g,borderWidth:2,pointRadius:3,pointBackgroundColor:'#22c55e',tension:0.4,fill:true}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:gridOpts,ticks:{maxTicksLimit:10,maxRotation:45}},y:{grid:gridOpts,beginAtZero:true}}}});
+}
+
+function makeBarChart(id,entries,colors){
+  dc(id);
+  if(!entries.length) return;
+  const ctx=document.getElementById('chart-'+id).getContext('2d');
+  charts[id]=new Chart(ctx,{type:'bar',data:{labels:entries.map(e=>e[0]),datasets:[{label:'Acessos',data:entries.map(e=>e[1]),backgroundColor:colors,borderRadius:6,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',plugins:{legend:{display:false}},scales:{x:{grid:gridOpts,beginAtZero:true},y:{grid:{display:false},ticks:{font:{size:10}}}}}});
+}
+
+function renderCountriesChart(t){ makeBarChart('countries',top5(t.by_country),['#3b82f6','#6366f1','#22c55e','#a855f7','#eab308']); }
+function renderProductsChart(t){ makeBarChart('products',top5(t.by_product),['#22c55e','#3b82f6','#eab308','#a855f7','#06b6d4']); }
+function renderIPsChart(t){ makeBarChart('ips',top5(t.by_ip),['#ef4444','#eab308','#06b6d4','#22c55e','#a855f7']); }
+
+async function renderMap(t){
+  dc('map');
+  const bc=safeObj(t.by_country);
+  try {
+    const w=await (await fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json')).json();
+    const countries=ChartGeo.topojson.feature(w,w.objects.countries);
+    const data=countries.features.map(f=>({feature:f,value:0}));
+    Object.entries(bc).forEach(([name,val])=>{
+      const f=countries.features.find(f=>f.properties&&f.properties.name&&f.properties.name.toLowerCase().includes(name.toLowerCase()));
+      if(f){const i=data.findIndex(d=>d.feature.id===f.id);if(i!==-1)data[i].value=val;}
+    });
+    const ctx=document.getElementById('chart-map').getContext('2d');
+    charts['map']=new Chart(ctx,{type:'choropleth',data:{labels:countries.features.map(f=>f.properties?f.properties.name:f.id),datasets:[{label:'Acessos',data,backgroundColor(c){if(!c.raw)return'rgba(59,130,246,0.05)';const v=c.raw.value||0;if(!v)return'rgba(59,130,246,0.05)';return`rgba(34,197,94,${Math.min(0.15+v/30*0.75,0.88)})`;},borderColor:'rgba(255,255,255,0.05)',borderWidth:0.5}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label(c){return`${c.label}: ${c.raw?c.raw.value||0:0} acessos`;} }}},scales:{projection:{axis:'x',projection:'equalEarth'},color:{display:false}}}});
+  } catch(e){
+    console.warn('[Thrive] Mapa erro:',e.message);
+    const el=document.getElementById('chart-map');
+    if(el)el.parentElement.innerHTML=`<div class="text-center py-10 font-mono text-sm" style="color:var(--text-muted)">Mapa indisponivel: ${e.message}</div>`;
+  }
+}
+
+// ── TABLE ──────────────────────────────────────────────────────────────
+function renderTable(t){
+  const byIP=safeObj(t.by_ip), byCountry=safeObj(t.by_country);
+  const byCity=safeObj(t.by_city), byProduct=safeObj(t.by_product), byOrg=safeObj(t.by_org);
+  const ips=Object.keys(byIP), tbody=document.getElementById('table-body');
+  if(!ips.length){tbody.innerHTML='<tr><td colspan="6" class="text-center py-8 font-mono text-sm" style="color:var(--text-muted)">Nenhum dado.</td></tr>';return;}
+  const country=Object.keys(byCountry)[0]||'—', city=Object.keys(byCity)[0]||'—', org=Object.keys(byOrg)[0]||'—';
+  tbody.innerHTML=ips.map(ip=>{
+    const prod=Object.keys(byProduct)[0]||'—';
+    return `<tr>
+      <td><span style="color:#93c5fd;">${ip}</span></td>
+      <td>${country}</td>
+      <td style="color:var(--text-muted);">${city}</td>
+      <td><span class="badge badge-green">${fmt(byIP[ip])}</span></td>
+      <td><span class="badge badge-purple">${prod}</span></td>
+      <td style="color:var(--text-muted);font-size:0.71rem;max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${org}</td>
+    </tr>`;
+  }).join('');
+}
+
+// ── UI HELPERS ─────────────────────────────────────────────────────────
+function showLoading(v){ document.getElementById('loading').classList.toggle('hidden',!v); }
+function showError(msg){ const b=document.getElementById('error-box'); b.textContent='⚠ '+msg; b.classList.remove('hidden'); }
+function hideError(){ document.getElementById('error-box').classList.add('hidden'); }
+
+// ── INIT ───────────────────────────────────────────────────────────────
+loadData();
 </script>
-
 </body>
 </html>

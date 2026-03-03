@@ -65,7 +65,7 @@
 
     e.preventDefault();
 
-    const finalUrl = hoplink + "?tid=" + visitorId;
+    const finalUrl = hoplink + "?aff_sub1=" + visitorId + "&aff_sub2=" + product; //const finalUrl = hoplink + "?tid=" + visitorId;
 
     sendToN8n({
       event: "cta_click",
@@ -78,7 +78,7 @@
     setTimeout(() => {
       window.location.href = finalUrl;
     }, 150);
-console.log("JS funcionando")
+
   });
 
 })();
