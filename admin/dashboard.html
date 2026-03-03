@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <title>Thrive Daily | Intelligence Dashboard</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -13,7 +14,10 @@ body {
 }
 .card {
     background: rgba(255,255,255,0.05);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(12px);
+}
+canvas {
+    max-height: 300px;
 }
 </style>
 </head>
@@ -59,7 +63,22 @@ body {
 
 </div>
 
-<!-- CHARTS -->
+<!-- TIME ANALYTICS -->
+<div class="grid md:grid-cols-2 gap-8 mb-10">
+
+<div class="card p-6 rounded-xl">
+<h3 class="mb-4 font-bold">Access by Hour</h3>
+<canvas id="hourChart"></canvas>
+</div>
+
+<div class="card p-6 rounded-xl">
+<h3 class="mb-4 font-bold">Access by Date</h3>
+<canvas id="dateChart"></canvas>
+</div>
+
+</div>
+
+<!-- ORIGINAL CHARTS -->
 <div class="grid md:grid-cols-2 gap-8 mb-10">
 
 <div class="card p-6 rounded-xl">
@@ -68,7 +87,7 @@ body {
 </div>
 
 <div class="card p-6 rounded-xl">
-<h3 class="mb-4 font-bold">Access by Product/Page</h3>
+<h3 class="mb-4 font-bold">Access by Product</h3>
 <canvas id="productChart"></canvas>
 </div>
 
@@ -95,28 +114,59 @@ body {
 
 const API_URL = "https://n8n.thrivedaily.cloud/webhook/dash";
 
+Chart.defaults.color = "#cbd5e1";
+Chart.defaults.borderColor = "rgba(255,255,255,0.1)";
+
 fetch(API_URL)
 .then(res => res.json())
 .then(data => {
 
 const analytics = Array.isArray(data) ? data[0] : data;
 
+// KPIs
 document.getElementById("totalAccess").innerText = analytics.total_access;
 document.getElementById("uniqueVisitors").innerText = analytics.unique_visitors;
+document.getElementById("uniqueIPs").innerText = Object.keys(analytics.by_ip || {}).length;
+document.getElementById("activeCities").innerText = Object.keys(analytics.by_city || {}).length;
+document.getElementById("returnRate").innerText = analytics.return_rate + "%";
 
-document.getElementById("uniqueIPs").innerText =
-Object.keys(analytics.by_ip || {}).length;
+// =======================
+// HOUR CHART
+// =======================
+if (analytics.by_hour) {
+const sortedHours = Object.keys(analytics.by_hour).sort();
+new Chart(document.getElementById("hourChart"), {
+type: 'line',
+data: {
+labels: sortedHours,
+datasets: [{
+label: 'Access',
+data: sortedHours.map(h => analytics.by_hour[h]),
+fill: true,
+tension: 0.3
+}]
+}
+});
+}
 
-document.getElementById("activeCities").innerText =
-Object.keys(analytics.by_city || {}).length;
+// =======================
+// DATE CHART
+// =======================
+if (analytics.by_date) {
+const sortedDates = Object.keys(analytics.by_date).sort();
+new Chart(document.getElementById("dateChart"), {
+type: 'bar',
+data: {
+labels: sortedDates,
+datasets: [{
+label: 'Access',
+data: sortedDates.map(d => analytics.by_date[d])
+}]
+}
+});
+}
 
-let returnRate =
-((analytics.total_access - analytics.unique_visitors) / analytics.total_access) * 100;
-
-document.getElementById("returnRate").innerText =
-returnRate.toFixed(1) + "%";
-
-// CITY CHART
+// CITY
 new Chart(document.getElementById("cityChart"), {
 type: 'bar',
 data: {
@@ -128,7 +178,7 @@ data: Object.values(analytics.by_city || {})
 }
 });
 
-// PRODUCT CHART
+// PRODUCT
 new Chart(document.getElementById("productChart"), {
 type: 'doughnut',
 data: {
