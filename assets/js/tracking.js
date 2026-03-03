@@ -48,8 +48,9 @@
   sendToN8n({
     event: "page_view",
     product: product,
-    url: window.location.href,
-    referrer: document.referrer,
+    page_url: window.location.href,
+    page_path: window.location.pathname,
+    referrer: document.referrer || null,
     timestamp: new Date().toISOString()
   });
 
@@ -77,7 +78,7 @@
     setTimeout(() => {
       window.location.href = finalUrl;
     }, 150);
-
+console.log("JS funcionando")
   });
 
 })();
