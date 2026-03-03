@@ -6,63 +6,135 @@
     <title>Política de Privacidade | ThriveDaily</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- CSS global -->
-    <link rel="stylesheet" href="/css/style.css">
+    <!-- Paleta e estilo principal -->
+    <script src="https://cdn.tailwindcss.com"></script>
 
+    <!-- ClickBank -->
     <script>
         window.clickbank = {
             vendor: "vendoffici"
         }
     </script>
     <script src="https://scripts.clickbank.net/hop.min.js" defer></script>
+
+    <!-- Tracking -->
+    <script src="../../assets/js/tracking.js" defer></script>
 </head>
 
-<body>
+<body class="bg-slate-50 text-slate-800"
+      data-produto="institucional">
 
-    <div class="container">
-        <h1>Política de Privacidade</h1>
+    <!-- HEADER -->
+    <header class="bg-white shadow-md">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-indigo-600">
+                ThriveDaily
+            </h1>
 
-        <p>Última atualização: 10 de Fevereiro de 2026</p>
+            <nav class="space-x-6 text-sm font-medium">
+                <a href="../../index.html" class="hover:text-indigo-600 transition">Home</a>
+                <a href="../products/index.html" class="hover:text-indigo-600 transition">Produtos</a>
+            </nav>
+        </div>
+    </header>
 
-        <h2>1. Informações Coletadas</h2>
-        <p>
-            Podemos coletar informações como endereço IP, tipo de navegador,
-            páginas visitadas e dados de navegação para fins estatísticos
-            e melhoria da experiência do usuário.
-        </p>
+    <!-- CONTEÚDO -->
+    <main class="max-w-4xl mx-auto px-6 py-16">
 
-        <h2>2. Uso das Informações</h2>
-        <p>
-            As informações coletadas são utilizadas para análise de tráfego,
-            segurança da plataforma e melhoria dos nossos serviços.
-        </p>
+        <div class="bg-white rounded-3xl shadow-xl p-10">
 
-        <h2>3. Cookies</h2>
-        <p>
-            Podemos utilizar cookies e tecnologias semelhantes para melhorar
-            sua experiência de navegação.
-        </p>
+            <h2 class="text-4xl font-bold mb-6 text-slate-900">
+                Política de Privacidade
+            </h2>
 
-        <h2>4. Compartilhamento</h2>
-        <p>
-            Não vendemos ou compartilhamos dados pessoais com terceiros,
-            exceto quando necessário para operação da plataforma.
-        </p>
+            <p class="text-sm text-slate-500 mb-8">
+                Última atualização: 10 de Fevereiro de 2026
+            </p>
 
-        <h2>5. Segurança</h2>
-        <p>
-            Adotamos medidas técnicas e organizacionais para proteger
-            as informações coletadas.
-        </p>
+            <div class="space-y-8 leading-relaxed">
 
-        <h2>6. Contato</h2>
-        <p>
-            Caso tenha dúvidas sobre esta política, entre em contato
-            através dos nossos canais oficiais.
-        </p>
+                <section>
+                    <h3 class="text-xl font-semibold mb-3 text-indigo-600">
+                        1. Informações Coletadas
+                    </h3>
+                    <p>
+                        Podemos coletar informações como endereço IP, tipo de navegador,
+                        páginas visitadas e dados de navegação para fins estatísticos
+                        e melhoria da experiência do usuário.
+                    </p>
+                </section>
 
-        <a href="/index.html" class="btn-voltar">← Voltar</a>
-    </div>
+                <section>
+                    <h3 class="text-xl font-semibold mb-3 text-indigo-600">
+                        2. Uso das Informações
+                    </h3>
+                    <p>
+                        As informações coletadas são utilizadas para análise de tráfego,
+                        segurança da plataforma e melhoria dos nossos serviços.
+                    </p>
+                </section>
+
+                <section>
+                    <h3 class="text-xl font-semibold mb-3 text-indigo-600">
+                        3. Cookies
+                    </h3>
+                    <p>
+                        Podemos utilizar cookies e tecnologias semelhantes para melhorar
+                        sua experiência de navegação e personalização de conteúdo.
+                    </p>
+                </section>
+
+                <section>
+                    <h3 class="text-xl font-semibold mb-3 text-indigo-600">
+                        4. Compartilhamento
+                    </h3>
+                    <p>
+                        Não vendemos ou compartilhamos dados pessoais com terceiros,
+                        exceto quando necessário para operação da plataforma
+                        ou cumprimento de obrigações legais.
+                    </p>
+                </section>
+
+                <section>
+                    <h3 class="text-xl font-semibold mb-3 text-indigo-600">
+                        5. Segurança
+                    </h3>
+                    <p>
+                        Adotamos medidas técnicas e organizacionais adequadas
+                        para proteger as informações coletadas contra acesso
+                        não autorizado, alteração ou divulgação.
+                    </p>
+                </section>
+
+                <section>
+                    <h3 class="text-xl font-semibold mb-3 text-indigo-600">
+                        6. Contato
+                    </h3>
+                    <p>
+                        Caso tenha dúvidas sobre esta Política de Privacidade,
+                        entre em contato através dos nossos canais oficiais.
+                    </p>
+                </section>
+
+            </div>
+
+            <div class="mt-10">
+                <a href="../../index.html"
+                   class="inline-block bg-indigo-600 text-white px-6 py-3 rounded-full font-semibold shadow-lg hover:bg-indigo-700 transition">
+                    ← Voltar para Home
+                </a>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-white border-t mt-16">
+        <div class="max-w-6xl mx-auto px-6 py-8 text-center text-sm text-slate-500">
+            © 2026 ThriveDaily. Todos os direitos reservados.
+        </div>
+    </footer>
 
 </body>
 

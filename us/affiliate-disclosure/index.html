@@ -1,42 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Affiliate Disclosure | Thrive Daily</title>
+    <title>Affiliate Disclosure | ThriveDaily</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/style.css">
 
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- ClickBank -->
     <script>
         window.clickbank = {
             vendor: "vendoffici"
         }
     </script>
     <script src="https://scripts.clickbank.net/hop.min.js" defer></script>
+
+    <!-- Tracking -->
+    <script src="../../assets/js/tracking.js" defer></script>
 </head>
-<body>
 
-<div class="container">
-    <h1>Affiliate Disclosure</h1>
-    <p>Last updated: February 12, 2026</p>
+<body class="bg-slate-50 text-slate-800"
+      data-produto="institucional">
 
-    <p>
-        This website contains affiliate links. This means we may earn a commission 
-        if you click on a link and make a purchase, at no additional cost to you.
-    </p>
+    <!-- HEADER -->
+    <header class="bg-white shadow-md">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-indigo-600">
+                ThriveDaily
+            </h1>
 
-    <p>
-        We only promote products and services that we believe may provide value. 
-        However, we are not responsible for the claims, policies, or practices of 
-        third-party companies.
-    </p>
+            <nav class="space-x-6 text-sm font-medium">
+                <a href="../../index.html" class="hover:text-indigo-600 transition">Home</a>
+                <a href="../products/index.html" class="hover:text-indigo-600 transition">Products</a>
+            </nav>
+        </div>
+    </header>
 
-    <p>
-        Our participation in affiliate programs does not influence the objectivity 
-        of our content.
-    </p>
+    <!-- CONTENT -->
+    <main class="max-w-4xl mx-auto px-6 py-16">
 
-    <a href="/index.html" class="btn-voltar">← Back</a>
-</div>
+        <div class="bg-white rounded-3xl shadow-xl p-10">
+
+            <h2 class="text-4xl font-bold mb-6 text-slate-900">
+                Affiliate Disclosure
+            </h2>
+
+            <p class="text-sm text-slate-500 mb-8">
+                Last updated: February 12, 2026
+            </p>
+
+            <div class="space-y-6 leading-relaxed">
+
+                <p>
+                    This website contains affiliate links. This means that we may earn
+                    a commission if you click on a link and make a purchase,
+                    at no additional cost to you.
+                </p>
+
+                <p>
+                    We may participate in various affiliate marketing programs,
+                    including but not limited to ClickBank and other third-party networks.
+                    These programs are designed to provide compensation for referring
+                    visitors to external products and services.
+                </p>
+
+                <p>
+                    We only promote products and services that we believe may provide value.
+                    However, we are not responsible for the claims, policies,
+                    guarantees, or practices of third-party companies.
+                </p>
+
+                <p>
+                    Our participation in affiliate programs does not influence
+                    the objectivity of our content, reviews, or recommendations.
+                    Any opinions expressed on this website are our own.
+                </p>
+
+                <p>
+                    You should conduct your own due diligence before purchasing
+                    any product or service mentioned on this website.
+                </p>
+
+            </div>
+
+            <div class="mt-10">
+                <a href="../../index.html"
+                   class="inline-block bg-indigo-600 text-white px-6 py-3 rounded-full font-semibold shadow-lg hover:bg-indigo-700 transition">
+                    ← Back to Home
+                </a>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-white border-t mt-16">
+        <div class="max-w-6xl mx-auto px-6 py-8 text-center text-sm text-slate-500">
+            © 2026 ThriveDaily. All rights reserved.
+        </div>
+    </footer>
 
 </body>
+
 </html>

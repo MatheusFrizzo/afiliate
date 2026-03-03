@@ -1,52 +1,133 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Earnings Disclaimer | Thrive Daily</title>
+    <title>Earnings & Results Disclaimer | ThriveDaily</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/style.css">
 
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- ClickBank -->
     <script>
         window.clickbank = {
             vendor: "vendoffici"
         }
     </script>
-    <script src="https://scripts.clickbank.net/hop.min.js" defer></script>    
+    <script src="https://scripts.clickbank.net/hop.min.js" defer></script>
 
+    <!-- Tracking -->
+    <script src="../../assets/js/tracking.js" defer></script>
 </head>
-<body>
 
-<div class="container">
-    <h1>Earnings & Results Disclaimer</h1>
-    <p>Last updated: February 12, 2026</p>
+<body class="bg-slate-50 text-slate-800"
+      data-produto="institucional">
 
-    <h2>No Guaranteed Results</h2>
-    <p>
-        Any results or examples discussed on this website are not typical and are not 
-        guarantees of future performance. Individual results may vary.
-    </p>
+    <!-- HEADER -->
+    <header class="bg-white shadow-md">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-indigo-600">
+                ThriveDaily
+            </h1>
 
-    <h2>Health & Supplement Results</h2>
-    <p>
-        Testimonials and product reviews represent individual experiences. 
-        Results may vary depending on multiple factors including age, health condition, 
-        lifestyle, and consistency of use.
-    </p>
+            <nav class="space-x-6 text-sm font-medium">
+                <a href="../../index.html class="hover:text-indigo-600 transition">Home</a>
+                <a href="../products/index.html" class="hover:text-indigo-600 transition">Products</a>
+            </nav>
+        </div>
+    </header>
 
-    <h2>Affiliate Relationships</h2>
-    <p>
-        We may promote third-party products and may receive compensation if you purchase 
-        through our links. This does not affect the price you pay.
-    </p>
+    <!-- CONTENT -->
+    <main class="max-w-4xl mx-auto px-6 py-16">
 
-    <h2>No Professional Advice</h2>
-    <p>
-        The information provided is not intended as medical, financial, or professional advice. 
-        Always seek guidance from qualified professionals.
-    </p>
+        <div class="bg-white rounded-3xl shadow-xl p-10">
 
-    <a href="/index.html" class="btn-voltar">← Back</a>
-</div>
+            <h2 class="text-4xl font-bold mb-6 text-slate-900">
+                Earnings & Results Disclaimer
+            </h2>
+
+            <p class="text-sm text-slate-500 mb-8">
+                Last updated: February 12, 2026
+            </p>
+
+            <div class="space-y-8 leading-relaxed">
+
+                <section>
+                    <h3 class="text-xl font-semibold mb-3 text-indigo-600">
+                        No Guaranteed Results
+                    </h3>
+                    <p>
+                        Any results or examples discussed on this website are not typical
+                        and are not guarantees of future performance. Individual results
+                        vary based on multiple factors including effort, consistency,
+                        personal circumstances, and external variables.
+                    </p>
+                </section>
+
+                <section>
+                    <h3 class="text-xl font-semibold mb-3 text-indigo-600">
+                        Health & Supplement Results
+                    </h3>
+                    <p>
+                        Testimonials, product reviews, and case studies reflect
+                        individual experiences. These results are not intended
+                        to represent or guarantee that anyone will achieve the same
+                        or similar outcomes.
+                    </p>
+                    <p class="mt-3">
+                        Results may vary depending on age, health condition,
+                        metabolism, lifestyle habits, and adherence to recommended use.
+                    </p>
+                </section>
+
+                <section>
+                    <h3 class="text-xl font-semibold mb-3 text-indigo-600">
+                        Affiliate Disclosure
+                    </h3>
+                    <p>
+                        This website may promote third-party products and services.
+                        We may receive compensation if you purchase through our affiliate links.
+                        This does not increase the price you pay and does not influence
+                        our content integrity.
+                    </p>
+                </section>
+
+                <section>
+                    <h3 class="text-xl font-semibold mb-3 text-indigo-600">
+                        No Professional Advice
+                    </h3>
+                    <p>
+                        The information provided on this website is for informational
+                        purposes only and is not intended as medical, legal,
+                        financial, or professional advice.
+                    </p>
+                    <p class="mt-3">
+                        Always consult qualified professionals before making decisions
+                        related to your health, finances, or business activities.
+                    </p>
+                </section>
+
+            </div>
+
+            <div class="mt-10">
+                <a href="../../index.html
+                   class="inline-block bg-indigo-600 text-white px-6 py-3 rounded-full font-semibold shadow-lg hover:bg-indigo-700 transition">
+                    ← Back to Home
+                </a>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-white border-t mt-16">
+        <div class="max-w-6xl mx-auto px-6 py-8 text-center text-sm text-slate-500">
+            © 2026 ThriveDaily. All rights reserved.
+        </div>
+    </footer>
 
 </body>
+
 </html>

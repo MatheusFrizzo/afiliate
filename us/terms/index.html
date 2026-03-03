@@ -3,63 +3,136 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Terms of Service | Thrive Daily</title>
+    <title>Terms of Service | ThriveDaily</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/style.css">
 
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- ClickBank -->
     <script>
         window.clickbank = {
             vendor: "vendoffici"
         }
     </script>
     <script src="https://scripts.clickbank.net/hop.min.js" defer></script>
+
+    <!-- Tracking -->
+    <script src="../../assets/js/tracking.js" defer></script>
 </head>
 
-<body>
+<body class="bg-slate-50 text-slate-800"
+      data-produto="institucional">
 
-    <div class="container">
-        <h1>Terms of Service</h1>
-        <p>Last updated: February 12, 2026</p>
+    <!-- HEADER -->
+    <header class="bg-white shadow-md">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-indigo-600">
+                ThriveDaily
+            </h1>
 
-        <h2>1. Acceptance of Terms</h2>
-        <p>
-            By accessing or using this website, you agree to be bound by these Terms of Service
-            and all applicable laws and regulations.
-        </p>
+            <nav class="space-x-6 text-sm font-medium">
+                <a href="../../index.html" class="hover:text-indigo-600 transition">Home</a>
+                <a href="../products/index.html" class="hover:text-indigo-600 transition">Products</a>
+            </nav>
+        </div>
+    </header>
 
-        <h2>2. Informational Purpose Only</h2>
-        <p>
-            Content provided on this website is for informational and educational purposes only.
-            We do not provide medical, legal, or financial advice.
-        </p>
+    <!-- CONTENT -->
+    <main class="max-w-4xl mx-auto px-6 py-16">
 
-        <h2>3. No Medical Advice</h2>
-        <p>
-            Statements regarding health products have not been evaluated by the Food and Drug Administration (FDA).
-            Products featured are not intended to diagnose, treat, cure, or prevent any disease.
-            Always consult a licensed healthcare professional before starting any supplement.
-        </p>
+        <div class="bg-white rounded-3xl shadow-xl p-10">
 
-        <h2>4. Third-Party Links</h2>
-        <p>
-            Our website may contain links to third-party websites. We are not responsible for
-            the content, policies, or practices of external websites.
-        </p>
+            <h2 class="text-4xl font-bold mb-6 text-slate-900">
+                Terms of Service
+            </h2>
 
-        <h2>5. Limitation of Liability</h2>
-        <p>
-            Thrive Daily shall not be held liable for any damages resulting from the use
-            or inability to use this website or any products referenced.
-        </p>
+            <p class="text-sm text-slate-500 mb-8">
+                Last updated: February 12, 2026
+            </p>
 
-        <h2>6. Modifications</h2>
-        <p>
-            We reserve the right to update or modify these Terms at any time. Continued use
-            of the website constitutes acceptance of changes.
-        </p>
+            <div class="space-y-8 leading-relaxed">
 
-        <a href="/index.html" class="btn-voltar">← Back</a>
-    </div>
+                <section>
+                    <h3 class="text-xl font-semibold mb-3 text-indigo-600">
+                        1. Acceptance of Terms
+                    </h3>
+                    <p>
+                        By accessing or using this website, you agree to be bound by these Terms of Service
+                        and all applicable laws and regulations.
+                    </p>
+                </section>
+
+                <section>
+                    <h3 class="text-xl font-semibold mb-3 text-indigo-600">
+                        2. Informational Purpose Only
+                    </h3>
+                    <p>
+                        Content provided on this website is for informational and educational purposes only.
+                        We do not provide medical, legal, or financial advice.
+                    </p>
+                </section>
+
+                <section>
+                    <h3 class="text-xl font-semibold mb-3 text-indigo-600">
+                        3. No Medical Advice
+                    </h3>
+                    <p>
+                        Statements regarding health products have not been evaluated by the Food and Drug Administration (FDA).
+                        Products featured are not intended to diagnose, treat, cure, or prevent any disease.
+                        Always consult a licensed healthcare professional before starting any supplement.
+                    </p>
+                </section>
+
+                <section>
+                    <h3 class="text-xl font-semibold mb-3 text-indigo-600">
+                        4. Third-Party Links
+                    </h3>
+                    <p>
+                        Our website may contain links to third-party websites.
+                        We are not responsible for the content, policies, or practices of external websites.
+                    </p>
+                </section>
+
+                <section>
+                    <h3 class="text-xl font-semibold mb-3 text-indigo-600">
+                        5. Limitation of Liability
+                    </h3>
+                    <p>
+                        ThriveDaily shall not be held liable for any damages resulting from the use
+                        or inability to use this website or any products referenced.
+                    </p>
+                </section>
+
+                <section>
+                    <h3 class="text-xl font-semibold mb-3 text-indigo-600">
+                        6. Modifications
+                    </h3>
+                    <p>
+                        We reserve the right to update or modify these Terms at any time.
+                        Continued use of the website constitutes acceptance of any changes.
+                    </p>
+                </section>
+
+            </div>
+
+            <div class="mt-10">
+                <a href="../../index.html"
+                   class="inline-block bg-indigo-600 text-white px-6 py-3 rounded-full font-semibold shadow-lg hover:bg-indigo-700 transition">
+                    ← Back to Home
+                </a>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-white border-t mt-16">
+        <div class="max-w-6xl mx-auto px-6 py-8 text-center text-sm text-slate-500">
+            © 2026 ThriveDaily. All rights reserved.
+        </div>
+    </footer>
 
 </body>
 
