@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Thrive Intelligence PRO</title>
 <script src="https://cdn.tailwindcss.com"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-chart-geo@4.3.0/build/index.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-chart-geo@3.10.0/build/index.umd.min.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -462,10 +462,24 @@ function renderFunnel(t,s){
 
 // ── PRODUCT STATS ──────────────────────────────────────────────────────
 function renderProductStats(s){
-  const ps=safeObj(s.product_stats), c=document.getElementById('product-stats-list');
-  if(!Object.keys(ps).length){c.innerHTML='<div class="text-sm font-mono" style="color:var(--text-muted)">Nenhum dado.</div>';return;}
-  c.innerHTML=Object.entries(ps).map(([name,st])=>{
-    const conv=parseFloat(safe(st.conversion_rate,0)), bw=Math.min(conv,100);
+  // Tenta pegar product_stats de sales, ou constrói a partir de rawSales
+  let ps = safeObj(s.product_stats);
+  
+  // Se vazio, tenta direto do rawSales original
+  if(!Object.keys(ps).length && rawSales && rawSales.product_stats) {
+    ps = safeObj(rawSales.product_stats);
+  }
+
+  const c = document.getElementById('product-stats-list');
+
+  if(!Object.keys(ps).length){
+    c.innerHTML='<div class="text-sm font-mono" style="color:var(--text-muted)">Nenhum dado de produto.</div>';
+    return;
+  }
+
+  c.innerHTML = Object.entries(ps).map(([name, st]) => {
+    const conv = parseFloat(safe(st.conversion_rate, 0));
+    const bw   = Math.min(conv, 100);
     return `<div style="border:1px solid var(--border);border-radius:11px;padding:0.9rem;background:rgba(255,255,255,0.02);">
       <div class="flex justify-between items-center mb-2">
         <span style="font-weight:700;font-size:0.86rem;">${name}</span>
@@ -516,21 +530,68 @@ function renderIPsChart(t){ makeBarChart('ips',top5(t.by_ip),['#ef4444','#eab308
 
 async function renderMap(t){
   dc('map');
-  const bc=safeObj(t.by_country);
+  const bc = safeObj(t.by_country);
+  const parent = document.getElementById('chart-map').parentElement;
+
   try {
-    const w=await (await fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json')).json();
-    const countries=ChartGeo.topojson.feature(w,w.objects.countries);
-    const data=countries.features.map(f=>({feature:f,value:0}));
-    Object.entries(bc).forEach(([name,val])=>{
-      const f=countries.features.find(f=>f.properties&&f.properties.name&&f.properties.name.toLowerCase().includes(name.toLowerCase()));
-      if(f){const i=data.findIndex(d=>d.feature.id===f.id);if(i!==-1)data[i].value=val;}
+    const w = await (await fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json')).json();
+    const countries = ChartGeo.topojson.feature(w, w.objects.countries).features;
+
+    // Recriar canvas para evitar estado corrompido
+    parent.innerHTML = '<canvas id="chart-map"></canvas>';
+    const ctx = document.getElementById('chart-map').getContext('2d');
+
+    charts['map'] = new Chart(ctx, {
+      type: 'choropleth',
+      data: {
+        labels: countries.map(f => f.properties ? f.properties.name : String(f.id)),
+        datasets: [{
+          label: 'Acessos',
+          data: countries.map(f => {
+            const name = f.properties ? f.properties.name : '';
+            // Busca o país pelo nome no objeto by_country
+            const match = Object.entries(bc).find(([k]) =>
+              name.toLowerCase().includes(k.toLowerCase()) ||
+              k.toLowerCase().includes(name.toLowerCase())
+            );
+            return { feature: f, value: match ? match[1] : 0 };
+          }),
+          backgroundColor(ctx) {
+            if (!ctx.raw) return 'rgba(59,130,246,0.05)';
+            const v = ctx.raw.value || 0;
+            if (!v) return 'rgba(30,50,100,0.4)';
+            return `rgba(34,197,94,${Math.min(0.2 + (v / 30) * 0.75, 0.92)})`;
+          },
+          borderColor: 'rgba(99,130,200,0.15)',
+          borderWidth: 0.5,
+          outline: countries, // renderiza o mundo inteiro como outline
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label(ctx) {
+                return `${ctx.label}: ${ctx.raw ? ctx.raw.value || 0 : 0} acessos`;
+              }
+            }
+          }
+        },
+        scales: {
+          projection: {
+            axis: 'x',
+            projection: 'equalEarth'
+          }
+        }
+      }
     });
-    const ctx=document.getElementById('chart-map').getContext('2d');
-    charts['map']=new Chart(ctx,{type:'choropleth',data:{labels:countries.features.map(f=>f.properties?f.properties.name:f.id),datasets:[{label:'Acessos',data,backgroundColor(c){if(!c.raw)return'rgba(59,130,246,0.05)';const v=c.raw.value||0;if(!v)return'rgba(59,130,246,0.05)';return`rgba(34,197,94,${Math.min(0.15+v/30*0.75,0.88)})`;},borderColor:'rgba(255,255,255,0.05)',borderWidth:0.5}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label(c){return`${c.label}: ${c.raw?c.raw.value||0:0} acessos`;} }}},scales:{projection:{axis:'x',projection:'equalEarth'},color:{display:false}}}});
-  } catch(e){
-    console.warn('[Thrive] Mapa erro:',e.message);
-    const el=document.getElementById('chart-map');
-    if(el)el.parentElement.innerHTML=`<div class="text-center py-10 font-mono text-sm" style="color:var(--text-muted)">Mapa indisponivel: ${e.message}</div>`;
+  } catch(e) {
+    console.warn('[Thrive] Mapa erro:', e);
+    parent.innerHTML = `<div class="text-center py-10 font-mono text-sm" style="color:var(--text-muted)">Mapa indisponivel: ${e.message}</div>`;
   }
 }
 
