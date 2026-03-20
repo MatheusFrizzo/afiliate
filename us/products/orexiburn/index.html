@@ -170,60 +170,73 @@
 
 
     <!-- CHATWOOT -->
-    <script>
-        window.chatwootSettings = {
-            position: "right",
-            type: "standard",
-            launcherTitle: "Speak With a Specialist"
-        };
+ <script>
+  window.chatwootSettings = {
+    position: "right",
+    type: "expanded_bubble",
+    launcherTitle: "Speak With a Specialist"
+  };
 
-        (function (d, t) {
+  (function(d,t) {
 
-            var BASE_URL = "https://chatwoot.thrivedaily.cloud";
+    var BASE_URL = "https://chatwoot.thrivedaily.cloud"; // ✅ corrigido
 
-            var g = d.createElement(t),
-                s = d.getElementsByTagName(t)[0];
+    var g = d.createElement(t),
+        s = d.getElementsByTagName(t)[0];
 
-            g.src = BASE_URL + "/packs/js/sdk.js";
-            g.async = true;
-            s.parentNode.insertBefore(g, s);
+    g.src = BASE_URL + "/packs/js/sdk.js";
+    g.async = true;
 
-            g.onload = function () {
+    s.parentNode.insertBefore(g, s);
 
-                window.chatwootSDK.run({
-                    websiteToken: 'yVwngs1Aw1hZ7LLGyFHzVJCL',
-                    baseUrl: BASE_URL
-                });
+    g.onload = function(){
 
-                // ===== GARANTIR INICIALIZAÇÃO =====
-                function initChat() {
-                    if (window.$chatwoot) {
+      window.chatwootSDK.run({
+        websiteToken: 'yVwngs1Aw1hZ7LLGyFHzVJCL',
+        baseUrl: BASE_URL
+      });
 
-                        const visitorId = localStorage.getItem('visitor_id') || 'guest';
-                        const product = document.body.dataset.produto || "unknown";
+      // ===============================
+      // INTEGRAÇÃO COM SEU TRACKING
+      // ===============================
 
-                        window.$chatwoot.setUser(visitorId, {
-                            name: "Visitor " + visitorId,
-                            custom_attributes: {
-                                product: product
-                            }
-                        });
+      function initChat() {
+        if (window.$chatwoot) {
 
-                        // 🔥 abre automático (opcional)
-                        setTimeout(() => {
-                            window.$chatwoot.toggle("open");
-                        }, 8000);
+          const visitorId = localStorage.getItem('visitor_id') || 'guest';
+          const product = document.body.dataset.produto || "unknown";
 
-                    } else {
-                        setTimeout(initChat, 500);
-                    }
-                }
+          // identifica usuário
+          window.$chatwoot.setUser(visitorId, {
+            name: "Visitor " + visitorId,
+            email: visitorId + "@tracker.local",
+            custom_attributes: {
+              product: product
+            }
+          });
 
-                initChat();
-            };
+          // envia evento
+          window.$chatwoot.pushEvent("page_view", {
+            product: product,
+            visitor_id: visitorId
+          });
 
-        })(document, "script");
-    </script>
+          // 🔥 abre automático (opcional - aumenta conversão)
+          setTimeout(() => {
+            window.$chatwoot.toggle("open");
+          }, 8000);
+
+        } else {
+          setTimeout(initChat, 500);
+        }
+      }
+
+      initChat();
+    };
+
+  })(document,"script");
+</script>
+
 
 </body>
 
