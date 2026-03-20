@@ -169,22 +169,61 @@
     </footer>
 
 
-<!-- CHATWOOT -->
-<script>
-  (function(d,t) {
-    var BASE_URL="https://chat.thrivedaily.cloud"; // ⚠️ IMPORTANTE
-    var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-    g.src=BASE_URL+"/packs/js/sdk.js";
-    g.async = true;
-    s.parentNode.insertBefore(g,s);
-    g.onload=function(){
-      window.chatwootSDK.run({
-        websiteToken: 'yVwngs1Aw1hZ7LLGyFHzVJCL',
-        baseUrl: BASE_URL
-      })
-    }
-  })(document,"script");
-</script>
+    <!-- CHATWOOT -->
+    <script>
+        window.chatwootSettings = {
+            position: "right",
+            type: "standard",
+            launcherTitle: "Speak With a Specialist"
+        };
+
+        (function (d, t) {
+
+            var BASE_URL = "https://chat.thrivedaily.cloud";
+
+            var g = d.createElement(t),
+                s = d.getElementsByTagName(t)[0];
+
+            g.src = BASE_URL + "/packs/js/sdk.js";
+            g.async = true;
+            s.parentNode.insertBefore(g, s);
+
+            g.onload = function () {
+
+                window.chatwootSDK.run({
+                    websiteToken: 'yVwngs1Aw1hZ7LLGyFHzVJCL',
+                    baseUrl: BASE_URL
+                });
+
+                // ===== GARANTIR INICIALIZAÇÃO =====
+                function initChat() {
+                    if (window.$chatwoot) {
+
+                        const visitorId = localStorage.getItem('visitor_id') || 'guest';
+                        const product = document.body.dataset.produto || "unknown";
+
+                        window.$chatwoot.setUser(visitorId, {
+                            name: "Visitor " + visitorId,
+                            custom_attributes: {
+                                product: product
+                            }
+                        });
+
+                        // 🔥 abre automático (opcional)
+                        setTimeout(() => {
+                            window.$chatwoot.toggle("open");
+                        }, 8000);
+
+                    } else {
+                        setTimeout(initChat, 500);
+                    }
+                }
+
+                initChat();
+            };
+
+        })(document, "script");
+    </script>
 
 </body>
 

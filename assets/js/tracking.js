@@ -55,6 +55,24 @@
   });
 
   // ===============================
+  // CHATWOOT EVENT (CORRETO)
+  // ===============================
+
+  function sendChatwootEvent() {
+    if (window.$chatwoot) {
+      window.$chatwoot.pushEvent("page_view", {
+        product: product,
+        visitor_id: visitorId
+      });
+    } else {
+      // tenta de novo (retry leve)
+      setTimeout(sendChatwootEvent, 500);
+    }
+  }
+
+  sendChatwootEvent();
+
+  // ===============================
   // CTA CLICK
   // ===============================
 
@@ -65,7 +83,7 @@
 
     e.preventDefault();
 
-    const finalUrl = hoplink + "?aff_sub1=" + visitorId + "&aff_sub2=" + product; //const finalUrl = hoplink + "?tid=" + visitorId;
+    const finalUrl = hoplink + "?aff_sub1=" + visitorId + "&aff_sub2=" + product;
 
     sendToN8n({
       event: "cta_click",
