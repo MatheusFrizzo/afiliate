@@ -79,8 +79,6 @@
     sendChatwootData();
   });
 
-  sendChatwootEvent();
-
   // ===============================
   // CTA CLICK
   // ===============================
