@@ -55,7 +55,7 @@
   });
 
   // ===============================
-  // CHATWOOT EVENT (CORRETO)
+  // CHATWOOT TRACKING CORRETO
   // ===============================
 
   function sendChatwootData() {
@@ -68,10 +68,16 @@
     window.$chatwoot.setCustomAttributes({
       product: product,
       visitor_id: visitorId,
-      page: window.location.pathname
+      page: window.location.pathname,
+      utm_source: new URLSearchParams(window.location.search).get("utm_source"),
+      utm_campaign: new URLSearchParams(window.location.search).get("utm_campaign")
     });
 
   }
+
+  window.addEventListener("chatwoot:ready", function () {
+    sendChatwootData();
+  });
 
   sendChatwootEvent();
 
