@@ -38,7 +38,7 @@
         ...payload,
         visitor_id: visitorId
       })
-    }).catch(() => {});
+    }).catch(() => { });
   }
 
   // ===============================
@@ -58,16 +58,19 @@
   // CHATWOOT EVENT (CORRETO)
   // ===============================
 
-  function sendChatwootEvent() {
-    if (window.$chatwoot) {
-      window.$chatwoot.pushEvent("page_view", {
-        product: product,
-        visitor_id: visitorId
-      });
-    } else {
-      // tenta de novo (retry leve)
-      setTimeout(sendChatwootEvent, 500);
+  function sendChatwootData() {
+
+    if (!window.$chatwoot) {
+      setTimeout(sendChatwootData, 500);
+      return;
     }
+
+    window.$chatwoot.setCustomAttributes({
+      product: product,
+      visitor_id: visitorId,
+      page: window.location.pathname
+    });
+
   }
 
   sendChatwootEvent();
