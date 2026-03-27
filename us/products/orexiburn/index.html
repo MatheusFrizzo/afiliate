@@ -1,164 +1,79 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>OrexiBurn Review | Support Your Healthy Metabolism & Vitality</title>
-
-<link rel="icon" type="image/jpeg" href="../../../img/logo.jpeg">
-
-<!-- ⚠️ PRODUÇÃO: substituir depois por build local -->
-<script src="https://cdn.tailwindcss.com"></script>
-
-<!-- TRACKING -->
-<script src="../../../assets/js/tracking.js" defer></script>
-
-<!-- ClickBank -->
-<script src='//cbtb.clickbank.net/?vendor=vendoffici'></script>
+<!-- CHATWOOT -->
 <script>
-window.clickbank = { vendor: "vendoffici" };
-</script>
-<script src="https://scripts.clickbank.net/hop.min.js" defer></script>
-
-<style>
-.btn-cta {
-  background: linear-gradient(90deg, #e11d48 0%, #f59e0b 100%);
-  transition: all 0.3s ease;
-}
-.btn-cta:hover {
-  transform: scale(1.02);
-  filter: brightness(1.1);
-}
-</style>
-
-</head>
-
-<body class="bg-white text-slate-800 font-sans"
-      data-produto="orexiburn">
-
-<!-- ================= NAV ================= -->
-<nav class="border-b bg-white py-4 px-6 sticky top-0 z-50">
-  <div class="max-w-6xl mx-auto flex justify-between items-center">
-    <div class="flex items-center gap-2 font-bold text-xl">
-      <img src="../../../img/logo.jpeg" class="h-8 rounded">
-      <span>Thrive Daily</span>
-    </div>
-
-    <button onclick="window.$chatwoot.toggle('open')"
-      class="border px-5 py-2 rounded-full hover:bg-slate-100">
-      Speak With a Specialist
-    </button>
-  </div>
-</nav>
-
-<!-- ================= HERO ================= -->
-<header class="py-16 px-6 bg-slate-50 text-center">
-  <h1 class="text-4xl font-bold mb-6">
-    Looking for <span class="text-rose-600">OrexiBurn</span>?
-  </h1>
-
-  <a href="#"
-     class="btn-cta text-white px-10 py-4 rounded-xl font-bold"
-     data-cta="check_availability">
-     CHECK AVAILABILITY
-  </a>
-</header>
-
-<!-- ================= CONTENT ================= -->
-<main class="max-w-5xl mx-auto px-6 py-16">
-
-<h2 class="text-2xl font-bold mb-4">What is OrexiBurn?</h2>
-<p class="text-slate-600 mb-6">
-Natural supplement for metabolism and energy.
-</p>
-
-</main>
-
-<!-- ================= FOOTER ================= -->
-<footer class="bg-slate-900 text-slate-400 py-10 text-center">
-  <p>© 2026 Thrive Daily</p>
-</footer>
-
-<!-- ================= CHATWOOT ================= -->
-<script>
-window.chatwootSettings = {
-  position: "right",
-  type: "expanded_bubble",
-  launcherTitle: "Falar com especialista"
-};
-
-(function(d,t){
-
-  const BASE_URL = "https://chatwoot.thrivedaily.cloud";
-
-  const g = d.createElement(t);
-  const s = d.getElementsByTagName(t)[0];
-
-  g.src = BASE_URL + "/packs/js/sdk.js";
-  g.async = true;
-
-  s.parentNode.insertBefore(g, s);
-
-  g.onload = function(){
-
-    window.chatwootSDK.run({
-      websiteToken: "yVwngs1Aw1hZ7LLGyFHzVJCL",
-      baseUrl: BASE_URL
-    });
-
-    initChat();
-
+  window.chatwootSettings = {
+    position: "right",
+    type: "expanded_bubble",
+    launcherTitle: "Speak With a Specialist"
   };
 
-  function initChat(){
+  (function(d,t) {
 
-    if (!window.$chatwoot){
-      setTimeout(initChat, 300);
-      return;
+    var BASE_URL = "https://chatwoot.thrivedaily.cloud"; 
+
+    var g = d.createElement(t),
+        s = d.getElementsByTagName(t)[0];
+
+    g.src = BASE_URL + "/packs/js/sdk.js";
+    g.async = true;
+
+    s.parentNode.insertBefore(g, s);
+
+    g.onload = function(){
+
+      window.chatwootSDK.run({
+        websiteToken: 'yVwngs1Aw1hZ7LLGyFHzVJCL',
+        baseUrl: BASE_URL
+      });
+
+      initChat();
+
+    };
+
+    function initChat() {
+
+      if (!window.$chatwoot) {
+        setTimeout(initChat, 400);
+        return;
+      }
+
+      const visitorId = localStorage.getItem('visitor_id') || generateVisitorId();
+      const product = document.body.dataset.produto || "unknown";
+
+      // 👤 IDENTIFICA USUÁRIO
+      window.$chatwoot.setUser(visitorId, {
+        name: "Visitor " + visitorId,
+        email: visitorId + "@tracker.local"
+      });
+
+      // 📊 CONTEXTO (IMPORTANTE PRA IA)
+      window.$chatwoot.setCustomAttributes({
+        product: product,
+        visitor_id: visitorId,
+        page: window.location.pathname,
+        referrer: document.referrer,
+        utm_source: getParam("utm_source"),
+        utm_campaign: getParam("utm_campaign"),
+        utm_medium: getParam("utm_medium")
+      });
+
+      // 🔥 ABERTURA AUTOMÁTICA (SÓ PRA TRÁFEGO PAGO)
+      if (getParam("utm_source")) {
+        setTimeout(() => {
+          window.$chatwoot.toggle("open");
+        }, 8000);
+      }
+
     }
 
-    const visitorId = localStorage.getItem("visitor_id") || generateVisitorId();
-    const product = document.body.dataset.produto || "unknown";
-
-    // 👤 IDENTIDADE
-    window.$chatwoot.setUser(visitorId, {
-      name: "Visitor " + visitorId,
-      email: visitorId + "@tracker.local"
-    });
-
-    // 📊 CONTEXTO (OURO PARA IA)
-    window.$chatwoot.setCustomAttributes({
-      product: product,
-      visitor_id: visitorId,
-      page: window.location.pathname,
-      referrer: document.referrer,
-      utm_source: getParam("utm_source"),
-      utm_campaign: getParam("utm_campaign"),
-      utm_medium: getParam("utm_medium")
-    });
-
-    // 🔥 ABERTURA INTELIGENTE
-    if (getParam("utm_source")) {
-      setTimeout(() => {
-        window.$chatwoot.toggle("open");
-      }, 6000);
+    function getParam(name) {
+      return new URLSearchParams(window.location.search).get(name);
     }
 
-  }
+    function generateVisitorId() {
+      const id = 'v_' + Math.random().toString(36).substring(2, 12);
+      localStorage.setItem('visitor_id', id);
+      return id;
+    }
 
-  function getParam(name){
-    return new URLSearchParams(window.location.search).get(name);
-  }
-
-  function generateVisitorId(){
-    const id = "v_" + Math.random().toString(36).substring(2,12);
-    localStorage.setItem("visitor_id", id);
-    return id;
-  }
-
-})(document,"script");
+  })(document,"script");
 </script>
-
-</body>
-</html>
